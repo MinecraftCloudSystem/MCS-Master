@@ -20,10 +20,11 @@ package net.mcsproject.master.network.packet;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import net.mcsproject.master.logging.Log;
+import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.InvocationTargetException;
 
+@Log4j2
 public class PacketRegistry {
 
     private static PacketRegistry instance;
@@ -45,7 +46,7 @@ public class PacketRegistry {
         try {
             return (Packet) this.packets.get(id).getConstructors()[0].newInstance();
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            Log.error(ex.getMessage());
+            log.error(ex.getMessage());
         }
         return null;
     }

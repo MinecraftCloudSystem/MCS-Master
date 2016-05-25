@@ -28,6 +28,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.8</version>
+        </dependency>
+        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
             <version>3.2.2</version>
@@ -38,19 +43,14 @@
             <version>5.0.0.Alpha2</version>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.8</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>19.0</version>
         </dependency>
         <dependency>
-            <groupId>org.msgpack</groupId>
-            <artifactId>msgpack</artifactId>
-            <version>LATEST</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.5</version>
         </dependency>
     </dependencies>
 
@@ -97,6 +97,7 @@
                                     <include>org.mongodb:*</include>
                                     <include>io.netty:*</include>
                                     <include>com.google.guava:*</include>
+                                    <include>org.apache.logging.log4j:*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -109,7 +110,12 @@
                 <version>2.6</version>
                 <configuration>
                     <finalName>${project.artifactId}</finalName>
-                    <outputDirectory>./</outputDirectory>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>net.mcsproject.master.MasterServer</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
@@ -124,5 +130,4 @@
             </resource>
         </resources>
     </build>
-
 </project>

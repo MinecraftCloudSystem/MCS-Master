@@ -20,11 +20,12 @@ package net.mcsproject.master.network.packet;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import net.mcsproject.master.logging.Log;
+import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@Log4j2
 public class ListenerRegistry {
 
     private static ListenerRegistry instance;
@@ -54,10 +55,8 @@ public class ListenerRegistry {
             try {
                 method.invoke(listener, packet);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                Log.error(ex.getMessage());
+                log.error(ex.getMessage());
             }
         });
     }
-
-
 }

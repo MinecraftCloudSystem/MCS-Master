@@ -18,15 +18,16 @@
 
 package net.mcsproject.master;
 
-import net.mcsproject.master.logging.Log;
+import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.network.DaemonServer;
 
 import java.util.Scanner;
 
+@Log4j2
 public class MasterServer {
 
     public MasterServer() {
-        Log.info("Starting masterserver...");
+        log.info("Starting masterserver...");
         DaemonServer daemonServer = new DaemonServer(1337);
 
         Scanner scanner = new Scanner(System.in);

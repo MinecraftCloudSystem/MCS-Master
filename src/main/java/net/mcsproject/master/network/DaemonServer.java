@@ -27,9 +27,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
-import net.mcsproject.master.logging.Log;
+import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.network.packet.PacketMessageHandler;
 
+@Log4j2
 public class DaemonServer {
 
     @Getter
@@ -57,7 +58,7 @@ public class DaemonServer {
                 bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 
                 ChannelFuture future = bootstrap.bind(port).sync();
-                Log.info("Server started!");
+                log.info("Server started!");
                 future.channel().closeFuture().sync();
             } catch(Exception ex) {
                 ex.printStackTrace();
