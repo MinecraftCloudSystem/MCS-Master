@@ -16,17 +16,24 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.test.jcommander;
+package net.mcsproject.master.test.log4j;
 
-import net.mcsproject.master.jcommander.FileConverter;
+import net.mcsproject.master.log4j.LoggerStream;
+import net.mcsproject.master.log4j.OutErrLogger;
+import org.apache.logging.log4j.Level;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
+import java.io.PrintStream;
 
-public class FileConverterTests {
+public class OutErrLoggerTests {
+
     @Test
-    public void Convert_CorrectConvertStringToFile() {
-        Assert.assertEquals(new FileConverter().convert("config.json"), new File("config.json"));
+    public void SetOutAndErrToLog_NewPrintWriterSystemOutErr(){
+        OutErrLogger.setOutAndErrToLog();
+        try {
+            Assert.assertTrue(PrintStream.class.getDeclaredField("out").get(System.out).equals(new LoggerStream(Level.INFO)));
+            Assert.assertTrue(PrintStream.class.getDeclaredField("out").get(System.err).equals(new LoggerStream(Level.ERROR)));
+        } catch (NoSuchFieldException | IllegalAccessException ignored) {}
     }
 }

@@ -19,6 +19,7 @@
 package net.mcsproject.master;
 
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.log4j.OutErrLogger;
 import net.mcsproject.master.network.DaemonServer;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +32,8 @@ import java.util.Scanner;
 public class MasterServer {
 
     private MasterServer(String[] args) {
+        OutErrLogger.setOutAndErrToLog();
+
         Arguments startParameter = new Arguments(args);
 
         if (startParameter.isDebug())

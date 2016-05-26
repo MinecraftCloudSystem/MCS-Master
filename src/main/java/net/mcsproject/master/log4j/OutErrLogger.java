@@ -16,17 +16,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.test.jcommander;
+package net.mcsproject.master.log4j;
 
-import net.mcsproject.master.jcommander.FileConverter;
-import org.junit.Assert;
-import org.junit.Test;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Level;
 
-import java.io.File;
+import java.io.PrintStream;
 
-public class FileConverterTests {
-    @Test
-    public void Convert_CorrectConvertStringToFile() {
-        Assert.assertEquals(new FileConverter().convert("config.json"), new File("config.json"));
+@Log4j2
+public class OutErrLogger {
+    public static void setOutAndErrToLog()
+    {
+        setOutToLog();
+        setErrToLog();
+    }
+
+    private static void setOutToLog()
+    {
+        System.setOut(new PrintStream(new LoggerStream(Level.INFO)));
+    }
+
+    private static void setErrToLog()
+    {
+        System.setErr(new PrintStream(new LoggerStream(Level.ERROR)));
     }
 }
