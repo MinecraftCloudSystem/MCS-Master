@@ -24,7 +24,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import net.mcsproject.master.network.packet.Packet;
 import net.mcsproject.master.network.packet.PacketRegistry;
 
-public class PacketEncoder extends MessageToByteEncoder<Packet> {
+class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {

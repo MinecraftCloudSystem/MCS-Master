@@ -33,7 +33,7 @@ public class MasterServer {
     private MasterServer(String[] args) {
         Arguments startParameter = new Arguments(args);
 
-        if(startParameter.isDebug())
+        if (startParameter.isDebug())
             enableDebug();
 
         log.info("Starting masterserver...");
@@ -44,15 +44,15 @@ public class MasterServer {
         scanner.next();
     }
 
-    private void enableDebug(){
+    public static void main(String[] args) {
+        new MasterServer(args);
+    }
+
+    private void enableDebug() {
         LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
         Configuration conf = ctx.getConfiguration();
         conf.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
         ctx.updateLoggers(conf);
         log.info("Debugging mode is Enabled");
-    }
-
-    public static void main(String[] args) {
-        new MasterServer(args);
     }
 }

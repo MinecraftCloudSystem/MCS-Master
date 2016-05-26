@@ -26,14 +26,14 @@ import net.mcsproject.master.network.packet.PacketRegistry;
 
 import java.util.List;
 
-public class PacketDecoder extends ByteToMessageDecoder {
+class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         byte id = byteBuf.readByte();
 
         Packet packet = PacketRegistry.getInstance().getPacketById(id);
-        if(packet != null) {
+        if (packet != null) {
             packet.read(byteBuf);
             list.add(packet);
         }

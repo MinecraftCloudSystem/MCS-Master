@@ -21,14 +21,13 @@ package net.mcsproject.master.test;
 import net.mcsproject.master.Arguments;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import java.io.File;
 
 public class ArgumentsTests {
 
     @Test
-    public void Arguments_FieldsInitializeCorrectWithArguments(){
+    public void Arguments_FieldsInitializeCorrectWithArguments() {
         String[] args = {
                 "-debug",
                 "-config",
@@ -40,7 +39,7 @@ public class ArgumentsTests {
     }
 
     @Test
-    public void Arguments_FieldsInitializeCorrectWithoutArguments(){
+    public void Arguments_FieldsInitializeCorrectWithoutArguments() {
         String[] args = {};
         Arguments arguments = new Arguments(args);
         Assert.assertEquals(arguments.isDebug(), false);

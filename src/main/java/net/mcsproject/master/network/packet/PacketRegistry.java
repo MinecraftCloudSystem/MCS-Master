@@ -28,14 +28,14 @@ import java.lang.reflect.InvocationTargetException;
 public class PacketRegistry {
 
     private static PacketRegistry instance;
-    public static PacketRegistry getInstance() {
-        if(instance == null) instance = new PacketRegistry();
-        return instance;
-    }
-
     private BiMap<Byte, Class<? extends Packet>> packets = HashBiMap.create();
 
     private PacketRegistry() {
+    }
+
+    public static PacketRegistry getInstance() {
+        if (instance == null) instance = new PacketRegistry();
+        return instance;
     }
 
     public void addPacket(byte id, Class<? extends Packet> packetClass) {

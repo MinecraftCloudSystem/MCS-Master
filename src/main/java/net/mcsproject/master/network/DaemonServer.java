@@ -49,9 +49,9 @@ public class DaemonServer {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
-                            .addLast(new PacketDecoder())
-                            .addLast(new PacketEncoder())
-                            .addLast(new PacketMessageHandler());
+                                .addLast(new PacketDecoder())
+                                .addLast(new PacketEncoder())
+                                .addLast(new PacketMessageHandler());
                     }
                 });
                 bootstrap.option(ChannelOption.SO_BACKLOG, 50);
@@ -60,7 +60,7 @@ public class DaemonServer {
                 ChannelFuture future = bootstrap.bind(port).sync();
                 log.info("Server started!");
                 future.channel().closeFuture().sync();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             } finally {
                 bossGroup.shutdownGracefully();

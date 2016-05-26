@@ -26,7 +26,7 @@ import java.io.File;
 
 public class FileConverterTests {
     @Test
-    public void FileConverter_CorrectConvert(){
+    public void FileConverter_CorrectConvert() {
         Assert.assertEquals(new FileConverter().convert("config.json"), new File("config.json"));
     }
 }

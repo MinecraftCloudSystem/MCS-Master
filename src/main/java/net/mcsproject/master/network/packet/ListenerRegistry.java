@@ -29,14 +29,15 @@ import java.lang.reflect.Method;
 public class ListenerRegistry {
 
     private static ListenerRegistry instance;
-    public static ListenerRegistry getInstance() {
-        if(instance == null) instance = new ListenerRegistry();
-        return instance;
-    }
-
     private Table<Class<?>, PacketListener, Method> packetListener = HashBasedTable.create();
 
-    private ListenerRegistry() {}
+    private ListenerRegistry() {
+    }
+
+    public static ListenerRegistry getInstance() {
+        if (instance == null) instance = new ListenerRegistry();
+        return instance;
+    }
 
     public void register(PacketListener listener) {
         for (Method method : listener.getClass().getMethods()) {
