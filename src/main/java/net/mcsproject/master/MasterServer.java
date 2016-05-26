@@ -20,22 +20,39 @@ package net.mcsproject.master;
 
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.network.DaemonServer;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
 
 import java.util.Scanner;
 
 @Log4j2
 public class MasterServer {
 
-    public MasterServer() {
+    private MasterServer(String[] args) {
+        Arguments startParameter = new Arguments(args);
+
+        if(startParameter.isDebug())
+            enableDebug();
+
         log.info("Starting masterserver...");
+
         DaemonServer daemonServer = new DaemonServer(1337);
 
         Scanner scanner = new Scanner(System.in);
         scanner.next();
     }
 
-    public static void main(String[] args) {
-        new MasterServer();
+    private void enableDebug(){
+        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        Configuration conf = ctx.getConfiguration();
+        conf.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
+        ctx.updateLoggers(conf);
+        log.info("Debugging mode is Enabled");
     }
 
+    public static void main(String[] args) {
+        new MasterServer(args);
+    }
 }
