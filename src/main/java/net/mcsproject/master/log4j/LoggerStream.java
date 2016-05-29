@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Log4j2
-@EqualsAndHashCode(callSuper = true)
 public class LoggerStream extends OutputStream{
     private final Level logLevel;
 

@@ -35,7 +35,7 @@ public class ArgumentsTests {
         };
         Arguments arguments = new Arguments(args);
         Assert.assertEquals(arguments.isDebug(), true);
-        Assert.assertEquals(arguments.getSettingsFile(), new File("settings.json"));
+        Assert.assertEquals(arguments.getConfigFile(), new File("settings.json"));
     }
 
     @Test
@@ -43,6 +43,8 @@ public class ArgumentsTests {
         String[] args = {};
         Arguments arguments = new Arguments(args);
         Assert.assertEquals(arguments.isDebug(), false);
-        Assert.assertEquals(arguments.getSettingsFile(), new File("config.json"));
+        Assert.assertEquals(arguments.getConfigFile(), new File("config.json"));
     }
+
+
 }

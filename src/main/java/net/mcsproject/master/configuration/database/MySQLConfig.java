@@ -16,35 +16,30 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master;
+package net.mcsproject.master.configuration.database;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.mcsproject.master.jcommander.FileConverter;
+import lombok.Setter;
 
-import java.io.File;
-
-public class Arguments {
-
-    private static Arguments arguments;
-
+public class MySQLConfig implements DatabaseConfig{
+    @Setter(AccessLevel.PUBLIC)
     @Getter(AccessLevel.PUBLIC)
-    private JCommander jCommander;
-    @Getter(AccessLevel.PUBLIC)
-    @Parameter(names = "-debug", description = "Debug mode")
-    private boolean debug = false;
-    @Getter(AccessLevel.PUBLIC)
-    @Parameter(names = "-config", converter = FileConverter.class, description = "Path to config.json")
-    private File configFile = new File("config.json");
+    private String ip;
 
-    public Arguments(String[] args) {
-        arguments = this;
-        jCommander = new JCommander(this, args);
-    }
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private String port;
 
-    public static Arguments getInstance() {
-        return arguments;
-    }
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private String db;
+
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private String user;
+
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private String pw;
 }
