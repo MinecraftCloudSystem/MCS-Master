@@ -21,7 +21,7 @@ package net.mcsproject.master;
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.configuration.Config;
 import net.mcsproject.master.configuration.Configuration;
-import net.mcsproject.master.log4j.OutErrLogger;
+import net.mcsproject.master.libs.log4j.OutErrLogger;
 import net.mcsproject.master.network.DaemonServer;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +41,7 @@ public class MasterServer {
 
         log.info("Starting masterserver...");
 
-        Configuration configuration = new Configuration(arguments);
+        Configuration configuration = new Configuration();
         configuration.readConfiguration();
 
         log.info("Loading Configuration successfully");

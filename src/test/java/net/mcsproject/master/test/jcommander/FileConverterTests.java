@@ -18,7 +18,7 @@
 
 package net.mcsproject.master.test.jcommander;
 
-import net.mcsproject.master.jcommander.FileConverter;
+import net.mcsproject.master.libs.jcommander.FileConverter;
 import org.junit.Assert;
 import org.junit.Test;
 

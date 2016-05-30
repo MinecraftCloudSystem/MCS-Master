@@ -39,8 +39,8 @@ public class Configuration {
 
     private Gson gson;
 
-    public Configuration(Arguments arguments) {
-        this.configFile = arguments.getConfigFile();
+    public Configuration() {
+        this.configFile = Arguments.getInstance().getConfigFile();
         gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();

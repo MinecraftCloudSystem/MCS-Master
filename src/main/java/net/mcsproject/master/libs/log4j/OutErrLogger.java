@@ -16,45 +16,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.log4j;
+package net.mcsproject.master.libs.log4j;
 
-import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintStream;
 
 @Log4j2
-public class LoggerStream extends OutputStream{
-    private final Level logLevel;
-
-    public LoggerStream(Level logLevel)
+public class OutErrLogger {
+    public static void setOutAndErrToLog()
     {
-        super();
-        this.logLevel = logLevel;
+        setOutToLog();
+        setErrToLog();
     }
 
-    @Override
-    public void write(byte[] b) throws IOException
+    private static void setOutToLog()
     {
-        log(new String(b));
+        System.setOut(new PrintStream(new LoggerStream(Level.INFO)));
     }
 
-    @Override
-    public void write(byte[] b, int off, int len) throws IOException
+    private static void setErrToLog()
     {
-        log(new String(b, off, len));
-    }
-
-    @Override
-    public void write(int b) throws IOException
-    {
-        log(String.valueOf((char) b));
-    }
-
-    private void log(String message){
-        if (!message.trim().isEmpty())
-            log.log(logLevel, message);
+        System.setErr(new PrintStream(new LoggerStream(Level.ERROR)));
     }
 }

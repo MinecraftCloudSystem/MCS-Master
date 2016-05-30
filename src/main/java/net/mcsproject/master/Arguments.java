@@ -22,7 +22,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.mcsproject.master.jcommander.FileConverter;
+import net.mcsproject.master.libs.jcommander.FileConverter;
 
 import java.io.File;
 

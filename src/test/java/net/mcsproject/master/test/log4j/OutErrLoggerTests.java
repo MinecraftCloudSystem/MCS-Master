@@ -18,8 +18,8 @@
 
 package net.mcsproject.master.test.log4j;
 
-import net.mcsproject.master.log4j.LoggerStream;
-import net.mcsproject.master.log4j.OutErrLogger;
+import net.mcsproject.master.libs.log4j.LoggerStream;
+import net.mcsproject.master.libs.log4j.OutErrLogger;
 import org.apache.logging.log4j.Level;
 import org.junit.Assert;
 import org.junit.Test;

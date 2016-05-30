@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.jcommander;
+package net.mcsproject.master.libs.jcommander;
 
 import com.beust.jcommander.IStringConverter;
 
