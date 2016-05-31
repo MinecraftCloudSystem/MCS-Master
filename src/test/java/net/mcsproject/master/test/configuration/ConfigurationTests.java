@@ -33,7 +33,7 @@ import java.io.File;
 
 @Log4j2
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Configuration.class)
+@PrepareForTest(Arguments.class)
 @PowerMockIgnore("javax.management.*") //ToDo Fix it, that it's possible without this
 public class ConfigurationTests {
 
@@ -44,9 +44,13 @@ public class ConfigurationTests {
     private Config config;
     @Before
     public void setUp(){
-        Arguments mock = PowerMockito.mock(Arguments.class);
-        PowerMockito.when(mock.getConfigFile()).thenReturn(configFile);
-        configuration = new Configuration(mock);
+        Arguments mockArguments = PowerMockito.mock(Arguments.class);
+        PowerMockito.when(mockArguments.getConfigFile()).thenReturn(configFile);
+
+        PowerMockito.mockStatic(Arguments.class);
+        PowerMockito.when(Arguments.getInstance()).thenReturn(mockArguments);
+
+        configuration = new Configuration();
         config = new Config();
         config.setInternalPort(80);
     }
