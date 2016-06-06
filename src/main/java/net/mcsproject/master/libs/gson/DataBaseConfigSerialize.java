@@ -16,31 +16,20 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.configuration.database;
+package net.mcsproject.master.libs.gson;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import net.mcsproject.master.configuration.database.DatabaseConfig;
 
-public class MySQLConfig extends DatabaseConfig{
+import java.lang.reflect.Type;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String ip;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String port;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String db;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String user;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String pw;
+public class DataBaseConfigSerialize implements JsonSerializer<DatabaseConfig> {
+    @Override
+    public JsonElement serialize(DatabaseConfig databaseConfig, Type type, JsonSerializationContext jsonSerializationContext) {
+        JsonElement jsonEle = jsonSerializationContext.serialize(databaseConfig, databaseConfig.getClass());
+        jsonEle.getAsJsonObject().addProperty("DBMS", DatabaseConfig.getStringForDatabaseConfig(databaseConfig));
+        return jsonEle;
+    }
 }

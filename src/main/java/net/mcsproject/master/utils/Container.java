@@ -16,31 +16,21 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.configuration.database;
+package net.mcsproject.master.utils;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MySQLConfig extends DatabaseConfig{
-
-    @Setter(AccessLevel.PUBLIC)
+public class Container<T, R> {
     @Getter(AccessLevel.PUBLIC)
-    private String ip;
+    private T value;
 
-    @Setter(AccessLevel.PUBLIC)
     @Getter(AccessLevel.PUBLIC)
-    private String port;
+    @Setter(AccessLevel.PUBLIC)
+    private R result;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String db;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String user;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String pw;
+    public Container(T value) {
+        this.value = value;
+    }
 }

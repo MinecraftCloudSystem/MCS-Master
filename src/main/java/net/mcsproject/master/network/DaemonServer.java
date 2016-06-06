@@ -71,5 +71,4 @@ public class DaemonServer {
         thread.setName("DaemonServer Thread");
         thread.start();
     }
-
 }

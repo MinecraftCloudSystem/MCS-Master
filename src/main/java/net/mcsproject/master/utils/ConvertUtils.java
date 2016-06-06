@@ -16,31 +16,15 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.configuration.database;
+package net.mcsproject.master.utils;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
-public class MySQLConfig extends DatabaseConfig{
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String ip;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String port;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String db;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String user;
-
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String pw;
+public class ConvertUtils {
+    public static boolean tryParse(Container<String, Integer> container){
+        try {
+            container.setResult(Integer.parseInt(container.getValue()));
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
 }

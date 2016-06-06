@@ -16,30 +16,29 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.configuration.database;
+package net.mcsproject.master.utils;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoException;
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.configuration.database.MongoDBConfig;
 
 @Log4j2
-public abstract class DatabaseConfig {
-    public static Class<? extends DatabaseConfig> getClassForString(final String dbms){
-        switch (dbms){
-            case "MySQL":
-                return MySQLConfig.class;
-            case "MongoDB":
-                return MongoDBConfig.class;
-            default:
-                throw new IllegalArgumentException("Wrong DBMS");
+public class MongoDBConnectionTest {
+    public static boolean ConnectionTest(MongoDBConfig mongoDBConfig){
+        Logging.disableMongoDBLogging();
+        boolean success = true;
+        MongoClient mongoClient = null;
+        try{
+            (mongoClient = new MongoClient(new MongoClientURI("mongodb://" + mongoDBConfig.getIp() + ":" + mongoDBConfig.getPort()))).getDatabaseNames();
+        } catch (MongoException e){
+            success = false;
+        } finally {
+            if(mongoClient != null)
+                mongoClient.close();
+            Logging.enableMongoDBLogging();
         }
-    }
-
-    public static String getStringForDatabaseConfig(final DatabaseConfig databaseConfig){
-        if(databaseConfig instanceof MongoDBConfig){
-            return "MongoDB";
-        } else if (databaseConfig instanceof MySQLConfig){
-            return "MySQL";
-        } else {
-            throw new IllegalArgumentException();
-        }
+        return success;
     }
 }

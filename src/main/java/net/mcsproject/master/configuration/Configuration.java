@@ -24,6 +24,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.Arguments;
+import net.mcsproject.master.configuration.database.DatabaseConfig;
+import net.mcsproject.master.libs.gson.DataBaseConfigDeserialize;
+import net.mcsproject.master.libs.gson.DataBaseConfigSerialize;
 
 import java.io.File;
 import java.io.FileReader;
@@ -43,7 +46,13 @@ public class Configuration {
         this.configFile = Arguments.getInstance().getConfigFile();
         gson = new GsonBuilder()
                 .setPrettyPrinting()
+                .registerTypeAdapter(DatabaseConfig.class, new DataBaseConfigSerialize())
+                .registerTypeAdapter(DatabaseConfig.class, new DataBaseConfigDeserialize())
                 .create();
+    }
+
+    public boolean exists(){
+        return configFile.exists();
     }
 
     public void writeConfiguration() {

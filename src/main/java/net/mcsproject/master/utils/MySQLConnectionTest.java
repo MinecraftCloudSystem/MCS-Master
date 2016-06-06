@@ -16,30 +16,31 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.configuration.database;
+package net.mcsproject.master.utils;
 
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.configuration.database.MySQLConfig;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 @Log4j2
-public abstract class DatabaseConfig {
-    public static Class<? extends DatabaseConfig> getClassForString(final String dbms){
-        switch (dbms){
-            case "MySQL":
-                return MySQLConfig.class;
-            case "MongoDB":
-                return MongoDBConfig.class;
-            default:
-                throw new IllegalArgumentException("Wrong DBMS");
-        }
-    }
-
-    public static String getStringForDatabaseConfig(final DatabaseConfig databaseConfig){
-        if(databaseConfig instanceof MongoDBConfig){
-            return "MongoDB";
-        } else if (databaseConfig instanceof MySQLConfig){
-            return "MySQL";
-        } else {
-            throw new IllegalArgumentException();
+public class MySQLConnectionTest {
+    public static boolean ConnectionTest(MySQLConfig mySQLConfig){
+        try {
+            DriverManager.getConnection("jdbc:mysql://" +
+                            mySQLConfig.getIp() +
+                            ":" +
+                            mySQLConfig.getPort() +
+                            "/" +
+                            mySQLConfig.getDb(),
+                    mySQLConfig.getUser(),
+                    mySQLConfig.getPw()
+            ).close();
+            return true;
+        } catch (SQLException e) {
+            log.warn("Wrong database connection data");
+            return false;
         }
     }
 }

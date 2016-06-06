@@ -22,7 +22,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MongoDBConfig implements DatabaseConfig {
+public class MongoDBConfig extends DatabaseConfig {
+
     @Setter(AccessLevel.PUBLIC)
     @Getter(AccessLevel.PUBLIC)
     private String ip;

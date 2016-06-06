@@ -21,11 +21,10 @@ package net.mcsproject.master;
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.configuration.Config;
 import net.mcsproject.master.configuration.Configuration;
+import net.mcsproject.master.installation.Installation;
 import net.mcsproject.master.libs.log4j.OutErrLogger;
 import net.mcsproject.master.network.DaemonServer;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.LoggerContext;
+import net.mcsproject.master.utils.Logging;
 
 import java.util.Scanner;
 
@@ -33,6 +32,10 @@ import java.util.Scanner;
 public class MasterServer {
 
     private MasterServer(String[] args) {
+        if(System.console() == null) {
+            log.error("Not supported Console, Use -console parameter");
+            return;
+        }
         OutErrLogger.setOutAndErrToLog();
 
         Arguments arguments = new Arguments(args);
@@ -42,6 +45,10 @@ public class MasterServer {
         log.info("Starting masterserver...");
 
         Configuration configuration = new Configuration();
+
+        if(!configuration.exists())
+            new Installation().run(configuration);
+
         configuration.readConfiguration();
 
         log.info("Loading Configuration successfully");
@@ -59,10 +66,7 @@ public class MasterServer {
     }
 
     private void enableDebug() {
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        org.apache.logging.log4j.core.config.Configuration conf = ctx.getConfiguration();
-        conf.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
-        ctx.updateLoggers(conf);
+        Logging.enableDebug();
         log.info("Debugging mode is Enabled");
     }
 }
