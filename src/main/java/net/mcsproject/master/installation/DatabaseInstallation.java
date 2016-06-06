@@ -83,7 +83,7 @@ class DatabaseInstallation {
             mysqlConfig.setUser(user);
             mysqlConfig.setPw(pw);
             log.info("Please wait");
-        } while (!MySQLConnectionTest.ConnectionTest(mysqlConfig));
+        } while (!MySQLConnectionTest.connectionTest(mysqlConfig));
         return mysqlConfig;
     }
 
@@ -104,7 +104,7 @@ class DatabaseInstallation {
             mongoDBConfig.setIp(ip);
             mongoDBConfig.setPort(port);
             log.info("Please wait");
-        } while (!MongoDBConnectionTest.ConnectionTest(mongoDBConfig));
+        } while (!MongoDBConnectionTest.connectionTest(mongoDBConfig));
         return mongoDBConfig;
     }
 }

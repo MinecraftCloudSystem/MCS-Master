@@ -29,7 +29,7 @@ import net.mcsproject.master.utils.Logging;
 import java.util.Scanner;
 
 @Log4j2
-public class MasterServer {
+public final class MasterServer {
 
     private MasterServer(String[] args) {
         if(System.console() == null) {
@@ -39,15 +39,17 @@ public class MasterServer {
         OutErrLogger.setOutAndErrToLog();
 
         Arguments arguments = new Arguments(args);
-        if (arguments.isDebug())
+        if (arguments.isDebug()){
             enableDebug();
+        }
 
         log.info("Starting masterserver...");
 
         Configuration configuration = new Configuration();
 
-        if(!configuration.exists())
+        if(!configuration.exists()){
             new Installation().run(configuration);
+        }
 
         configuration.readConfiguration();
 

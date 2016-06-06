@@ -34,7 +34,9 @@ public class PacketRegistry {
     }
 
     public static PacketRegistry getInstance() {
-        if (instance == null) instance = new PacketRegistry();
+        if (instance == null){
+            instance = new PacketRegistry();
+        }
         return instance;
     }
 

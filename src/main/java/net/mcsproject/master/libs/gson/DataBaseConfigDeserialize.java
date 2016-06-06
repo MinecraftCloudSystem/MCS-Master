@@ -18,14 +18,17 @@
 
 package net.mcsproject.master.libs.gson;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.mcsproject.master.configuration.database.DatabaseConfig;
 
 import java.lang.reflect.Type;
 
 public class DataBaseConfigDeserialize implements JsonDeserializer<DatabaseConfig> {
     @Override
-    public DatabaseConfig deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public DatabaseConfig deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
         return jsonDeserializationContext.deserialize(jsonElement, DatabaseConfig.getClassForString(jsonObj.get("DBMS").getAsString()));
     }

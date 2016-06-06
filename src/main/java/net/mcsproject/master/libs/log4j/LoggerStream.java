@@ -20,6 +20,7 @@ package net.mcsproject.master.libs.log4j;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,13 +36,13 @@ public class LoggerStream extends OutputStream{
     }
 
     @Override
-    public void write(byte[] b) throws IOException
+    public void write(@NotNull byte[] b) throws IOException
     {
         log(new String(b));
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException
+    public void write(@NotNull byte[] b, int off, int len) throws IOException
     {
         log(new String(b, off, len));
     }
@@ -53,7 +54,8 @@ public class LoggerStream extends OutputStream{
     }
 
     private void log(String message){
-        if (!message.trim().isEmpty())
+        if (!message.trim().isEmpty()){
             log.log(logLevel, message);
+        }
     }
 }
