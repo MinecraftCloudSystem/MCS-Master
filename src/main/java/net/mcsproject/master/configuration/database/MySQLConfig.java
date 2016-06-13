@@ -43,4 +43,16 @@ public class MySQLConfig extends DatabaseConfig{
     @Setter(AccessLevel.PUBLIC)
     @Getter(AccessLevel.PUBLIC)
     private String pw;
+
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private int minOpenConnections;
+
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private int maxOpenConnections;
+
+    @Setter(AccessLevel.PUBLIC)
+    @Getter(AccessLevel.PUBLIC)
+    private int validationInterval;
 }

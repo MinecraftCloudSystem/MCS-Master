@@ -16,45 +16,22 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.libs.log4j;
+package net.mcsproject.master.database.mysql.relations;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
-
-import java.io.IOException;
-import java.io.OutputStream;
+import net.mcsproject.master.database.mysql.MySQLExecutor;
+import net.mcsproject.master.database.utils.ConnectionPool;
 
 @Log4j2
-public class LoggerStream extends OutputStream{
-    private final Level logLevel;
+public class VersionRelation extends Relation {
 
-    public LoggerStream(Level logLevel)
-    {
-        super();
-        this.logLevel = logLevel;
-    }
+    public static String NAME = "version";
 
-    @Override
-    public void write(byte[] b) throws IOException
-    {
-        log(new String(b));
-    }
+    private ConnectionPool pool;
 
-    @Override
-    public void write(byte[] b, int off, int len) throws IOException
-    {
-        log(new String(b, off, len));
-    }
+    private String version;
 
-    @Override
-    public void write(int b) throws IOException
-    {
-        log(String.valueOf((char) b));
-    }
-
-    private void log(String message){
-        if (!message.trim().isEmpty()){
-            log.log(logLevel, message);
-        }
+    public VersionRelation(MySQLExecutor executor, boolean exist){
+        super(executor, "mysql/version", exist);
     }
 }

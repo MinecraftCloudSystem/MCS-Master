@@ -21,6 +21,8 @@ package net.mcsproject.master;
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.configuration.Config;
 import net.mcsproject.master.configuration.Configuration;
+import net.mcsproject.master.database.Database;
+import net.mcsproject.master.database.DatabaseFactory;
 import net.mcsproject.master.installation.Installation;
 import net.mcsproject.master.libs.log4j.OutErrLogger;
 import net.mcsproject.master.network.DaemonServer;
@@ -56,6 +58,8 @@ public final class MasterServer {
         log.info("Loading Configuration successfully");
 
         Config config = configuration.getConfig();
+
+        Database database = new DatabaseFactory(config).create();
 
         DaemonServer daemonServer = new DaemonServer(config.getInternalPort());
 

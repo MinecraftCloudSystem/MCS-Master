@@ -71,17 +71,22 @@ class DatabaseInstallation {
             log.info("Please enter the database");
             db = console.readLine();
 
-            log.info("Please enter the user");
+            log.info("Please enter the User");
             user = console.readLine();
 
             log.info("Please enter the Password");
             pw = new String(console.readPassword());
+
             mysqlConfig = new MySQLConfig();
             mysqlConfig.setIp(ip);
             mysqlConfig.setPort(port);
             mysqlConfig.setDb(db);
             mysqlConfig.setUser(user);
             mysqlConfig.setPw(pw);
+            mysqlConfig.setMinOpenConnections(1);
+            mysqlConfig.setMaxOpenConnections(5);
+            mysqlConfig.setValidationInterval(250);
+
             log.info("Please wait");
         } while (!MySQLConnectionTest.connectionTest(mysqlConfig));
         return mysqlConfig;
