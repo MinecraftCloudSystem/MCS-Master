@@ -24,4 +24,9 @@ class MongoDB implements Database {
     MongoDB(MongoDBConfig mongoDBConfig) {
         super();
     }
+
+    @Override
+    public void close() {
+
+    }
 }

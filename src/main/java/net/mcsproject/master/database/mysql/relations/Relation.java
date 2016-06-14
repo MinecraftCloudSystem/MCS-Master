@@ -21,6 +21,7 @@ package net.mcsproject.master.database.mysql.relations;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.MasterServer;
 import net.mcsproject.master.database.mysql.MySQLExecutor;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ abstract class Relation {
             executor.runScript(getResourceInputStream("create.sql"));
         } catch (IOException | SQLException e) {
             log.fatal(e);
-            //ToDo stop masterserver
+            MasterServer.getInstance().stopServer(101);
         }
     }
 

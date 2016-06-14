@@ -22,7 +22,10 @@ import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.Arguments;
 import net.mcsproject.master.configuration.Config;
 import net.mcsproject.master.configuration.Configuration;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -34,7 +37,7 @@ import java.io.File;
 @Log4j2
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Arguments.class)
-@PowerMockIgnore("javax.management.*") //ToDo Fix it, that it's possible without this
+@PowerMockIgnore("javax.management.*")
 public class ConfigurationTests {
 
     private Configuration configuration;

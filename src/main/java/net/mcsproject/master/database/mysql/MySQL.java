@@ -19,6 +19,7 @@
 package net.mcsproject.master.database.mysql;
 
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.MasterServer;
 import net.mcsproject.master.configuration.database.MySQLConfig;
 import net.mcsproject.master.database.Database;
 import net.mcsproject.master.database.mysql.relations.VersionRelation;
@@ -44,7 +45,7 @@ public class MySQL implements Database {
             }
         } catch (SQLException e) {
             log.fatal(e);
-            //ToDo stop masterserver
+            MasterServer.getInstance().stopServer(102);
         }
 
         versionRelation = new VersionRelation(executor, existTables.contains(VersionRelation.NAME));

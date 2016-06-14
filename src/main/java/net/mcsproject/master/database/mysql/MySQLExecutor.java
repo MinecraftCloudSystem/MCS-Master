@@ -20,6 +20,7 @@ package net.mcsproject.master.database.mysql;
 
 import com.sun.rowset.CachedRowSetImpl;
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.MasterServer;
 import net.mcsproject.master.configuration.database.MySQLConfig;
 import net.mcsproject.master.database.utils.ConnectionPool;
 
@@ -48,7 +49,7 @@ public class MySQLExecutor implements Closeable{
                     return DriverManager.getConnection("jdbc:mysql://" + mysqlConfig.getIp() + ":" + mysqlConfig.getPort() + "/" + mysqlConfig.getDb(), mysqlConfig.getUser(), mysqlConfig.getPw());
                 } catch (SQLException e) {
                     log.fatal(e);
-                    //ToDo stop masterserver
+                    MasterServer.getInstance().stopServer(100);
                 }
                 return null;
             }

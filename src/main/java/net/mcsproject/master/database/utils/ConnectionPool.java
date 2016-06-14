@@ -18,6 +18,8 @@
 
 package net.mcsproject.master.database.utils;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,6 +28,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@Log4j2
 public abstract class ConnectionPool implements Closeable {
 
     private ConcurrentLinkedQueue<Connection> pool;
@@ -47,7 +50,7 @@ public abstract class ConnectionPool implements Closeable {
                     try {
                         pool.poll().close();
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.warn(e);
                     }
                 }
             }
@@ -68,7 +71,7 @@ public abstract class ConnectionPool implements Closeable {
                 return;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.warn(e);
         }
         this.pool.offer(con);
     }
@@ -81,7 +84,7 @@ public abstract class ConnectionPool implements Closeable {
                 Connection con = pool.poll();
                 con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.warn(e);
             }
         }
     }

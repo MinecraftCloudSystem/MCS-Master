@@ -33,7 +33,12 @@ import java.util.Scanner;
 @Log4j2
 public final class MasterServer {
 
+    private static MasterServer instance;
+
+    private Database database;
+
     private MasterServer(String[] args) {
+        instance = this;
         if(System.console() == null) {
             log.error("Not supported Console, Use -console parameter");
             return;
@@ -59,7 +64,7 @@ public final class MasterServer {
 
         Config config = configuration.getConfig();
 
-        Database database = new DatabaseFactory(config).create();
+        database = new DatabaseFactory(config).create();
 
         DaemonServer daemonServer = new DaemonServer(config.getInternalPort());
 
@@ -74,5 +79,18 @@ public final class MasterServer {
     private void enableDebug() {
         Logging.enableDebug();
         log.info("Debugging mode is Enabled");
+    }
+
+    public void stopServer(int status) {
+        log.info("Server will be stop with status code " + status);
+        if(database != null)
+        {
+            database.close();
+        }
+        System.exit(status);
+    }
+
+    public static MasterServer getInstance(){
+        return instance;
     }
 }

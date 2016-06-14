@@ -18,6 +18,8 @@
 
 package net.mcsproject.master.database;
 
-public interface Database {
+import java.io.Closeable;
 
+public interface Database extends Closeable {
+    void close();
 }
