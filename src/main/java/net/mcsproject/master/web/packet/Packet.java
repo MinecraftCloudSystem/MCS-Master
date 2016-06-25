@@ -16,21 +16,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.network.packet;
+package net.mcsproject.master.web.packet;
 
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
-public class PacketMessageHandler extends SimpleChannelInboundHandler<Packet> {
-
-	private ListenerRegistry listenerRegistry;
-
-	@Override
-	protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
-		listenerRegistry.callEvent(packet);
-	}
+public abstract class Packet {
 
 }
-

@@ -16,35 +16,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.network.packet;
+package net.mcsproject.master.web.packet;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import lombok.extern.log4j.Log4j2;
 
-import java.lang.reflect.InvocationTargetException;
-
 @Log4j2
 public class PacketRegistry {
 
 	private static PacketRegistry instance;
-	private BiMap<Byte, Class<? extends Packet>> packets = HashBiMap.create();
+	private BiMap<String, Class<? extends Packet>> packets = HashBiMap.create();
 
-	public void addPacket(byte id, Class<? extends Packet> packetClass) {
-		this.packets.put(id, packetClass);
+	public void addPacket(String type, Class<? extends Packet> packetClass) {
+		this.packets.put(type, packetClass);
 	}
 
-	public Packet getPacketById(byte id) {
-		try {
-			return (Packet) this.packets.get(id).getConstructors()[0].newInstance();
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-			log.error(ex.getMessage());
-		}
-		return null;
+	public Class<? extends Packet> getPacketByType(String type) {
+		return this.packets.get(type);
 	}
 
-	public byte getIdByPacket(Class<? extends Packet> clazz) {
-		return this.packets.inverse().getOrDefault(clazz, (byte) 0x00);
+	public String getTypeByPacket(Class<? extends Packet> clazz) {
+		return this.packets.inverse().getOrDefault(clazz, "unknown");
 	}
 
 }

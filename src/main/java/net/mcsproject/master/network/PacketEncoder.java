@@ -21,17 +21,21 @@ package net.mcsproject.master.network;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import lombok.AllArgsConstructor;
 import net.mcsproject.master.network.packet.Packet;
 import net.mcsproject.master.network.packet.PacketRegistry;
 
-class PacketEncoder extends MessageToByteEncoder<Packet> {
+@AllArgsConstructor
+public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
-    @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
-        byte id = PacketRegistry.getInstance().getIdByPacket(packet.getClass());
+	private PacketRegistry packetRegistry;
 
-        byteBuf.writeByte(id);
-        packet.write(byteBuf);
-    }
+	@Override
+	protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
+		byte id = packetRegistry.getIdByPacket(packet.getClass());
+
+		byteBuf.writeByte(id);
+		packet.write(byteBuf);
+	}
 
 }

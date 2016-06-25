@@ -18,19 +18,18 @@
 
 package net.mcsproject.master.utils;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 public class Container<T, R> {
-    @Getter(AccessLevel.PUBLIC)
-    private T value;
+	@Getter
+	private T value;
 
-    @Getter(AccessLevel.PUBLIC)
-    @Setter(AccessLevel.PUBLIC)
-    private R result;
+	@Getter
+	@Setter
+	private R result;
 
-    public Container(T value) {
-        this.value = value;
-    }
+	public Container(T value) {
+		this.value = value;
+	}
 }

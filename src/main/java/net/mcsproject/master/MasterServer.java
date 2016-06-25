@@ -27,70 +27,71 @@ import net.mcsproject.master.installation.Installation;
 import net.mcsproject.master.libs.log4j.OutErrLogger;
 import net.mcsproject.master.network.DaemonServer;
 import net.mcsproject.master.utils.Logging;
+import net.mcsproject.master.web.ApiServer;
 
 import java.util.Scanner;
 
 @Log4j2
 public final class MasterServer {
 
-    private static MasterServer instance;
+	private static MasterServer instance;
 
-    private Database database;
+	private Database database;
 
-    private MasterServer(String[] args) {
-        instance = this;
-        if(System.console() == null) {
-            log.error("Not supported Console, Use -console parameter");
-            return;
-        }
-        OutErrLogger.setOutAndErrToLog();
+	private MasterServer(String[] args) {
+		instance = this;
+		if (System.console() == null) {
+			log.error("Not supported Console, Use -console parameter");
+			return;
+		}
+		OutErrLogger.setOutAndErrToLog();
 
-        Arguments arguments = new Arguments(args);
-        if (arguments.isDebug()){
-            enableDebug();
-        }
+		Arguments arguments = new Arguments(args);
+		if (arguments.isDebug()) {
+			enableDebug();
+		}
 
-        log.info("Starting masterserver...");
+		log.info("Starting masterserver...");
 
-        Configuration configuration = new Configuration();
+		Configuration configuration = new Configuration();
 
-        if(!configuration.exists()){
-            new Installation().run(configuration);
-        }
+		if (!configuration.exists()) {
+			new Installation().run(configuration);
+		}
 
-        configuration.readConfiguration();
+		configuration.readConfiguration();
 
-        log.info("Loading Configuration successfully");
+		log.info("Loading Configuration successfully");
 
-        Config config = configuration.getConfig();
+		Config config = configuration.getConfig();
 
-        database = new DatabaseFactory(config).create();
+		database = new DatabaseFactory(config).create();
 
-        DaemonServer daemonServer = new DaemonServer(config.getInternalPort());
+		DaemonServer daemonServer = new DaemonServer(config.getInternalPort());
+		ApiServer apiServer = new ApiServer(1337);
 
-        Scanner scanner = new Scanner(System.in);
-        scanner.next();
-    }
+		Scanner scanner = new Scanner(System.in);
+		scanner.next();
+	}
 
-    public static void main(String[] args) {
-        new MasterServer(args);
-    }
+	public static void main(String[] args) {
+		new MasterServer(args);
+	}
 
-    private void enableDebug() {
-        Logging.enableDebug();
-        log.info("Debugging mode is Enabled");
-    }
+	private void enableDebug() {
+		Logging.enableDebug();
+		log.info("Debugging mode is Enabled");
+	}
 
-    public void stopServer(int status) {
-        log.info("Server will be stop with status code " + status);
-        if(database != null)
-        {
-            database.close();
-        }
-        System.exit(status);
-    }
+	public void stopServer(int status) {
+		log.info("Server will be stop with status code " + status);
+		if (database != null) {
+			database.close();
+		}
+		System.exit(status);
+	}
 
-    public static MasterServer getInstance(){
-        return instance;
-    }
+	public static MasterServer getInstance() {
+		return instance;
+	}
 }

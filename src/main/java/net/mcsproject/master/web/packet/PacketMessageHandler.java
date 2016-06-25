@@ -16,20 +16,34 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.network.packet;
+package net.mcsproject.master.web.packet;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
-public class PacketMessageHandler extends SimpleChannelInboundHandler<Packet> {
+@RequiredArgsConstructor
+public class PacketMessageHandler extends SimpleChannelInboundHandler<String> {
 
+	@NonNull
+	private PacketRegistry packetRegistry;
+	@NonNull
 	private ListenerRegistry listenerRegistry;
 
+	private Gson gson = new Gson();
+	private JsonParser parser = new JsonParser();
+
 	@Override
-	protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
-		listenerRegistry.callEvent(packet);
+	protected void messageReceived(ChannelHandlerContext channelHandlerContext, String data) throws Exception {
+		JsonObject object = parser.parse(data).getAsJsonObject();
+		Class<? extends Packet> clazz = this.packetRegistry.getPacketByType(object.get("type").getAsString());
+		object.remove("type");
+
+		listenerRegistry.callEvent(gson.fromJson(object, clazz));
 	}
 
 }

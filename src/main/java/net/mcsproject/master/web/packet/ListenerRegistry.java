@@ -16,11 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.network.packet;
+package net.mcsproject.master.web.packet;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.network.packet.PacketHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

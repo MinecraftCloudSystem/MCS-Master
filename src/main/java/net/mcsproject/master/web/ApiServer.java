@@ -15,8 +15,7 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package net.mcsproject.master.network;
+package net.mcsproject.master.web;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -26,6 +25,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.network.packet.ListenerRegistry;
@@ -33,14 +34,14 @@ import net.mcsproject.master.network.packet.PacketMessageHandler;
 import net.mcsproject.master.network.packet.PacketRegistry;
 
 @Log4j2
-public class DaemonServer {
+public class ApiServer {
 
 	@Getter
 	private PacketRegistry packetRegistry;
 	@Getter
 	private ListenerRegistry listenerRegistry;
 
-	public DaemonServer(int port) {
+	public ApiServer(int port) {
 		this.packetRegistry = new PacketRegistry();
 		this.listenerRegistry = new ListenerRegistry();
 
@@ -56,18 +57,18 @@ public class DaemonServer {
 					@Override
 					protected void initChannel(SocketChannel socketChannel) throws Exception {
 						socketChannel.pipeline()
-								.addLast(new PacketDecoder(packetRegistry))
-								.addLast(new PacketEncoder(packetRegistry))
+								.addLast(new StringDecoder())
+								.addLast(new StringEncoder())
 								.addLast(new PacketMessageHandler(listenerRegistry));
 					}
 				});
 				bootstrap.option(ChannelOption.SO_BACKLOG, 50);
 				bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 
-				ChannelFuture future = bootstrap.bind(port).sync();
-				log.info("Daemon server started!");
+				ChannelFuture future = bootstrap.bind(port);
+				log.info("Web api server started!");
 				future.channel().closeFuture().sync();
-				log.info("Deamon server stopped!");
+				log.info("Web api server stopped!");
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			} finally {
@@ -76,4 +77,5 @@ public class DaemonServer {
 			}
 		}).start();
 	}
+
 }

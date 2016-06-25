@@ -163,6 +163,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
+                    <outputDirectory>../output</outputDirectory>
                     <finalName>${project.artifactId}</finalName>
                     <archive>
                         <manifest>
