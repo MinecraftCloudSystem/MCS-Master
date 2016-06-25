@@ -15,36 +15,33 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package net.mcsproject.master.web.packet;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.MessageToMessageDecoder;
 
-public class PacketMessageHandler extends SimpleChannelInboundHandler<String> {
+import java.util.List;
 
-	private PacketRegistry packetRegistry;
-	private ListenerRegistry listenerRegistry;
-
-	public PacketMessageHandler(PacketRegistry packetRegistry, ListenerRegistry listenerRegistry) {
-		this.packetRegistry = packetRegistry;
-		this.listenerRegistry = listenerRegistry;
-	}
+public class PacketEncoder extends MessageToMessageDecoder<Packet> {
 
 	private Gson gson = new Gson();
 	private JsonParser parser = new JsonParser();
 
-	@Override
-	protected void messageReceived(ChannelHandlerContext channelHandlerContext, String data) throws Exception {
-		JsonObject object = parser.parse(data).getAsJsonObject();
-		Class<? extends Packet> clazz = this.packetRegistry.getPacketByType(object.get("type").getAsString());
-		object.remove("type");
+	private PacketRegistry packetRegistry;
 
-		listenerRegistry.callEvent(gson.fromJson(object, clazz));
+	public PacketEncoder(PacketRegistry packetRegistry) {
+		this.packetRegistry = packetRegistry;
+	}
+
+	@Override
+	protected void decode(ChannelHandlerContext channelHandlerContext, Packet packet, List<Object> list) throws Exception {
+		JsonObject object = gson.toJsonTree(packet).getAsJsonObject();
+		object.addProperty("type", this.packetRegistry.getTypeByPacket(packet.getClass()));
+
+		list.add(gson.toJson(object));
 	}
 
 }
-

@@ -26,12 +26,13 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import net.mcsproject.master.network.packet.ListenerRegistry;
-import net.mcsproject.master.network.packet.PacketMessageHandler;
-import net.mcsproject.master.network.packet.PacketRegistry;
+import net.mcsproject.master.web.packet.ListenerRegistry;
+import net.mcsproject.master.web.packet.PacketEncoder;
+import net.mcsproject.master.web.packet.PacketMessageHandler;
+import net.mcsproject.master.web.packet.PacketRegistry;
+import net.mcsproject.master.web.packets.*;
 
 @Log4j2
 public class ApiServer {
@@ -58,8 +59,8 @@ public class ApiServer {
 					protected void initChannel(SocketChannel socketChannel) throws Exception {
 						socketChannel.pipeline()
 								.addLast(new StringDecoder())
-								.addLast(new StringEncoder())
-								.addLast(new PacketMessageHandler(listenerRegistry));
+								.addLast(new PacketEncoder(packetRegistry))
+								.addLast(new PacketMessageHandler(packetRegistry, listenerRegistry));
 					}
 				});
 				bootstrap.option(ChannelOption.SO_BACKLOG, 50);
@@ -76,6 +77,20 @@ public class ApiServer {
 				workerGroup.shutdownGracefully();
 			}
 		}).start();
+	}
+
+	private void registerPackets() {
+		PacketRegistry reg = this.packetRegistry;
+		reg.addPacket("daemons", PacketDeamons.class);
+		reg.addPacket("log", PacketLog.class);
+		reg.addPacket("login-cookie", PacketLoginCookie.class);
+		reg.addPacket("login-password", PacketLoginPassword.class);
+		reg.addPacket("login-response", PacketLoginResponse.class);
+		reg.addPacket("logout", PacketLogout.class);
+		reg.addPacket("plugins", PacketPlugins.class);
+		reg.addPacket("request", PacketRequest.class);
+		reg.addPacket("servertypes", PacketServertypes.class);
+		reg.addPacket("worlds", PacketWorlds.class);
 	}
 
 }
