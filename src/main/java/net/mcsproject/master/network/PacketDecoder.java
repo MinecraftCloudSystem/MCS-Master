@@ -19,6 +19,7 @@
 package net.mcsproject.master.network;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
 		Packet packet = packetRegistry.getPacketById(id);
 		if (packet != null) {
-			packet.read(byteBuf);
+			packet.read(new ByteBufInputStream(byteBuf));
 			list.add(packet);
 		}
 	}

@@ -15,28 +15,37 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package net.mcsproject.master.network.packets;
 
-package net.mcsproject.master.network;
-
-import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.AllArgsConstructor;
 import net.mcsproject.master.network.packet.Packet;
-import net.mcsproject.master.network.packet.PacketRegistry;
+
+import java.io.IOException;
 
 @AllArgsConstructor
-public class PacketEncoder extends MessageToByteEncoder<Packet> {
+public class PacketServerStatus extends Packet {
 
-	private PacketRegistry packetRegistry;
+	private int cpuUsage;
+	private int ramUsage;
+	private int ramMax;
+
+	public PacketServerStatus() {
+	}
 
 	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
-		byte id = packetRegistry.getIdByPacket(packet.getClass());
+	public void read(ByteBufInputStream byteBuf) throws IOException {
+		this.cpuUsage = byteBuf.readInt();
+		this.ramUsage = byteBuf.readInt();
+		this.ramMax = byteBuf.readInt();
+	}
 
-		byteBuf.writeByte(id);
-		packet.write(new ByteBufOutputStream(byteBuf));
+	@Override
+	public void write(ByteBufOutputStream byteBuf) throws IOException {
+		byteBuf.writeInt(this.cpuUsage);
+		byteBuf.writeInt(this.ramUsage);
+		byteBuf.writeInt(this.ramMax);
 	}
 
 }

@@ -18,12 +18,15 @@
 
 package net.mcsproject.master.network.packet;
 
-import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+
+import java.io.IOException;
 
 public abstract class Packet {
 
-    public abstract void read(ByteBuf byteBuf);
+	public abstract void read(ByteBufInputStream byteBuf) throws IOException;
 
-    public abstract void write(ByteBuf byteBuf);
+	public abstract void write(ByteBufOutputStream byteBuf) throws IOException;
 
 }

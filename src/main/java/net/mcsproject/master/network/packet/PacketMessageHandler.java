@@ -22,6 +22,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
 
+import java.io.IOException;
+
 @AllArgsConstructor
 public class PacketMessageHandler extends SimpleChannelInboundHandler<Packet> {
 
@@ -30,6 +32,14 @@ public class PacketMessageHandler extends SimpleChannelInboundHandler<Packet> {
 	@Override
 	protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
 		listenerRegistry.callEvent(packet);
+	}
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		if (cause instanceof IOException) {
+			return;
+		}
+		cause.printStackTrace();
 	}
 
 }

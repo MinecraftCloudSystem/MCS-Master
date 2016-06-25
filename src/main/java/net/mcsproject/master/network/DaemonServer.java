@@ -31,6 +31,7 @@ import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.network.packet.ListenerRegistry;
 import net.mcsproject.master.network.packet.PacketMessageHandler;
 import net.mcsproject.master.network.packet.PacketRegistry;
+import net.mcsproject.master.network.packets.*;
 
 @Log4j2
 public class DaemonServer {
@@ -43,6 +44,8 @@ public class DaemonServer {
 	public DaemonServer(int port) {
 		this.packetRegistry = new PacketRegistry();
 		this.listenerRegistry = new ListenerRegistry();
+
+		this.registerPackets();
 
 		new Thread(() -> {
 			EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -75,5 +78,17 @@ public class DaemonServer {
 				workerGroup.shutdownGracefully();
 			}
 		}).start();
+	}
+
+	private void registerPackets() {
+		PacketRegistry reg = this.packetRegistry;
+
+		reg.addPacket((byte) 0x00, PacketAuth.class);
+		reg.addPacket((byte) 0x01, PacketAuthResponse.class);
+		reg.addPacket((byte) 0x02, PacketReady.class);
+		reg.addPacket((byte) 0x03, PacketRequest.class);
+		reg.addPacket((byte) 0x04, PacketServerStart.class);
+		reg.addPacket((byte) 0x05, PacketServerStarted.class);
+		reg.addPacket((byte) 0x06, PacketServerStatus.class);
 	}
 }

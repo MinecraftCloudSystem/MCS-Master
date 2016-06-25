@@ -15,28 +15,26 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package net.mcsproject.master.network.packets;
 
-package net.mcsproject.master.network;
-
-import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
-import lombok.AllArgsConstructor;
 import net.mcsproject.master.network.packet.Packet;
-import net.mcsproject.master.network.packet.PacketRegistry;
 
-@AllArgsConstructor
-public class PacketEncoder extends MessageToByteEncoder<Packet> {
+import java.io.IOException;
 
-	private PacketRegistry packetRegistry;
+public class PacketReady extends Packet {
 
-	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
-		byte id = packetRegistry.getIdByPacket(packet.getClass());
-
-		byteBuf.writeByte(id);
-		packet.write(new ByteBufOutputStream(byteBuf));
+	public PacketReady() {
 	}
 
+	@Override
+	public void read(ByteBufInputStream byteBuf) throws IOException {
+
+	}
+
+	@Override
+	public void write(ByteBufOutputStream byteBuf) throws IOException {
+
+	}
 }

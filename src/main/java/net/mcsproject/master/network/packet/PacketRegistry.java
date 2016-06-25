@@ -28,9 +28,9 @@ import java.lang.reflect.InvocationTargetException;
 public class PacketRegistry {
 
 	private static PacketRegistry instance;
-	private BiMap<Byte, Class<? extends Packet>> packets = HashBiMap.create();
+	private BiMap<Byte, Class<?>> packets = HashBiMap.create();
 
-	public void addPacket(byte id, Class<? extends Packet> packetClass) {
+	public void addPacket(byte id, Class<?> packetClass) {
 		this.packets.put(id, packetClass);
 	}
 
@@ -43,7 +43,7 @@ public class PacketRegistry {
 		return null;
 	}
 
-	public byte getIdByPacket(Class<? extends Packet> clazz) {
+	public byte getIdByPacket(Class<?> clazz) {
 		return this.packets.inverse().getOrDefault(clazz, (byte) 0x00);
 	}
 

@@ -15,28 +15,41 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package net.mcsproject.master.network.packets;
 
-package net.mcsproject.master.network;
-
-import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.AllArgsConstructor;
 import net.mcsproject.master.network.packet.Packet;
-import net.mcsproject.master.network.packet.PacketRegistry;
+
+import java.io.IOException;
 
 @AllArgsConstructor
-public class PacketEncoder extends MessageToByteEncoder<Packet> {
+public class PacketAuthResponse extends Packet {
 
-	private PacketRegistry packetRegistry;
+	private boolean ok;
+	private int minPort;
+	private int maxPort;
+	private String resources;
+
+	public PacketAuthResponse() {
+	}
 
 	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
-		byte id = packetRegistry.getIdByPacket(packet.getClass());
+	public void read(ByteBufInputStream byteBuf) throws IOException {
+		this.ok = byteBuf.readBoolean();
+		this.minPort = byteBuf.readInt();
+		this.maxPort = byteBuf.readInt();
 
-		byteBuf.writeByte(id);
-		packet.write(new ByteBufOutputStream(byteBuf));
+		this.resources = byteBuf.readUTF();
+	}
+
+	@Override
+	public void write(ByteBufOutputStream byteBuf) throws IOException {
+		byteBuf.writeBoolean(this.ok);
+		byteBuf.writeInt(this.minPort);
+		byteBuf.writeInt(this.maxPort);
+		byteBuf.writeUTF(this.resources);
 	}
 
 }
