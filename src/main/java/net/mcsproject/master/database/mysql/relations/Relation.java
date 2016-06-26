@@ -31,29 +31,29 @@ import java.sql.SQLException;
 @Log4j2
 abstract class Relation {
 
-    @Getter(AccessLevel.PUBLIC)
-    protected String resources;
+	@Getter(AccessLevel.PUBLIC)
+	protected String resources;
 
-    private MySQLExecutor executor;
+	private MySQLExecutor executor;
 
-    Relation(MySQLExecutor executor, String resources, boolean exist){
-        this.executor = executor;
-        this.resources = resources;
-        if(!exist){
-            createTable();
-        }
-    }
+	Relation(MySQLExecutor executor, String resources, boolean exist) {
+		this.executor = executor;
+		this.resources = resources;
+		if (!exist) {
+			createTable();
+		}
+	}
 
-    private void createTable(){
-        try {
-            executor.runScript(getResourceInputStream("create.sql"));
-        } catch (IOException | SQLException e) {
-            log.fatal(e);
-            MasterServer.getInstance().stopServer(101);
-        }
-    }
+	private void createTable() {
+		try {
+			executor.runScript(getResourceInputStream("create.sql"));
+		} catch (IOException | SQLException e) {
+			log.fatal(e);
+			MasterServer.getInstance().stopServer(101);
+		}
+	}
 
-    private InputStream getResourceInputStream(String name){
-        return ClassLoader.getSystemResourceAsStream(resources + "/" + name);
-    }
+	private InputStream getResourceInputStream(String name) {
+		return ClassLoader.getSystemResourceAsStream(resources + "/" + name);
+	}
 }

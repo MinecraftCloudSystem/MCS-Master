@@ -20,11 +20,13 @@ package net.mcsproject.master.network.packets;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.mcsproject.master.network.packet.Packet;
 
 import java.io.IOException;
 
 @AllArgsConstructor
+@Getter
 public class PacketRequest extends Packet {
 
 	private String resourceType;

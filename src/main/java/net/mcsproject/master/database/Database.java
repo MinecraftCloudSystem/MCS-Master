@@ -21,5 +21,5 @@ package net.mcsproject.master.database;
 import java.io.Closeable;
 
 public interface Database extends Closeable {
-    void close();
+	void close();
 }

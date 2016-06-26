@@ -28,6 +28,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.network.listener.AuthListener;
 import net.mcsproject.master.network.packet.ListenerRegistry;
 import net.mcsproject.master.network.packet.PacketMessageHandler;
 import net.mcsproject.master.network.packet.PacketRegistry;
@@ -46,6 +47,7 @@ public class DaemonServer {
 		this.listenerRegistry = new ListenerRegistry();
 
 		this.registerPackets();
+		this.registerListeners();
 
 		new Thread(() -> {
 			EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -91,4 +93,11 @@ public class DaemonServer {
 		reg.addPacket((byte) 0x05, PacketServerStarted.class);
 		reg.addPacket((byte) 0x06, PacketServerStatus.class);
 	}
+
+	private void registerListeners() {
+		ListenerRegistry reg = this.listenerRegistry;
+
+		reg.register(new AuthListener());
+	}
+
 }

@@ -21,12 +21,12 @@ package net.mcsproject.master.database;
 import net.mcsproject.master.configuration.database.MongoDBConfig;
 
 class MongoDB implements Database {
-    MongoDB(MongoDBConfig mongoDBConfig) {
-        super();
-    }
+	MongoDB(MongoDBConfig mongoDBConfig) {
+		super();
+	}
 
-    @Override
-    public void close() {
+	@Override
+	public void close() {
 
-    }
+	}
 }

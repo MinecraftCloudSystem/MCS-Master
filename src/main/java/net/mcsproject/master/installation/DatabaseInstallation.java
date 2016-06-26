@@ -31,85 +31,85 @@ import java.io.Console;
 
 @Log4j2
 class DatabaseInstallation {
-    DatabaseConfig run(){
-        DatabaseConfig databaseConfig = null;
-        do {
-            log.info("Please choose your database management system (MySQL/MongoDB)");
-            switch (System.console().readLine().toLowerCase()) {
-                case "mysql":
-                    databaseConfig = mysqlInstall();
-                    break;
-                case "mongodb":
-                    databaseConfig = mongodbInstall();
-                    break;
-            }
-        } while (databaseConfig == null);
-        return databaseConfig;
-    }
+	DatabaseConfig run() {
+		DatabaseConfig databaseConfig = null;
+		do {
+			log.info("Please choose your database management system (MySQL/MongoDB)");
+			switch (System.console().readLine().toLowerCase()) {
+				case "mysql":
+					databaseConfig = mysqlInstall();
+					break;
+				case "mongodb":
+					databaseConfig = mongodbInstall();
+					break;
+			}
+		} while (databaseConfig == null);
+		return databaseConfig;
+	}
 
-    private MySQLConfig mysqlInstall(){
-        MySQLConfig mysqlConfig;
-        String ip;
-        String port;
-        String db;
-        String user;
-        String pw;
+	private MySQLConfig mysqlInstall() {
+		MySQLConfig mysqlConfig;
+		String ip;
+		String port;
+		String db;
+		String user;
+		String pw;
 
-        do{
-            Console console = System.console();
-            log.info("Please enter the ip for MySQL");
-            ip = console.readLine();
+		do {
+			Console console = System.console();
+			log.info("Please enter the ip for MySQL");
+			ip = console.readLine();
 
-            Container<String, Integer> container;
-            do {
-                log.info("Please enter the Port for MySQL");
-                container = new Container<>(console.readLine());
-            } while (!ConvertUtils.tryParse(container));
+			Container<String, Integer> container;
+			do {
+				log.info("Please enter the Port for MySQL");
+				container = new Container<>(console.readLine());
+			} while (!ConvertUtils.tryParse(container));
 
-            port = container.getResult().toString();
+			port = container.getResult().toString();
 
-            log.info("Please enter the database");
-            db = console.readLine();
+			log.info("Please enter the database");
+			db = console.readLine();
 
-            log.info("Please enter the User");
-            user = console.readLine();
+			log.info("Please enter the User");
+			user = console.readLine();
 
-            log.info("Please enter the Password");
-            pw = new String(console.readPassword());
+			log.info("Please enter the Password");
+			pw = new String(console.readPassword());
 
-            mysqlConfig = new MySQLConfig();
-            mysqlConfig.setIp(ip);
-            mysqlConfig.setPort(port);
-            mysqlConfig.setDb(db);
-            mysqlConfig.setUser(user);
-            mysqlConfig.setPw(pw);
-            mysqlConfig.setMinOpenConnections(1);
-            mysqlConfig.setMaxOpenConnections(5);
-            mysqlConfig.setValidationInterval(250);
+			mysqlConfig = new MySQLConfig();
+			mysqlConfig.setIp(ip);
+			mysqlConfig.setPort(port);
+			mysqlConfig.setDb(db);
+			mysqlConfig.setUser(user);
+			mysqlConfig.setPw(pw);
+			mysqlConfig.setMinOpenConnections(1);
+			mysqlConfig.setMaxOpenConnections(5);
+			mysqlConfig.setValidationInterval(250);
 
-            log.info("Please wait");
-        } while (!MySQLConnectionTest.connectionTest(mysqlConfig));
-        return mysqlConfig;
-    }
+			log.info("Please wait");
+		} while (!MySQLConnectionTest.connectionTest(mysqlConfig));
+		return mysqlConfig;
+	}
 
-    private MongoDBConfig mongodbInstall(){
-        MongoDBConfig mongoDBConfig;
-        String ip;
-        String port;
+	private MongoDBConfig mongodbInstall() {
+		MongoDBConfig mongoDBConfig;
+		String ip;
+		String port;
 
-        do{
-            Console console = System.console();
-            log.info("Please enter the ip for MongoDB");
-            ip = console.readLine();
+		do {
+			Console console = System.console();
+			log.info("Please enter the ip for MongoDB");
+			ip = console.readLine();
 
-            log.info("Please enter the port");
-            port = console.readLine();
+			log.info("Please enter the port");
+			port = console.readLine();
 
-            mongoDBConfig = new MongoDBConfig();
-            mongoDBConfig.setIp(ip);
-            mongoDBConfig.setPort(port);
-            log.info("Please wait");
-        } while (!MongoDBConnectionTest.connectionTest(mongoDBConfig));
-        return mongoDBConfig;
-    }
+			mongoDBConfig = new MongoDBConfig();
+			mongoDBConfig.setIp(ip);
+			mongoDBConfig.setPort(port);
+			log.info("Please wait");
+		} while (!MongoDBConnectionTest.connectionTest(mongoDBConfig));
+		return mongoDBConfig;
+	}
 }

@@ -30,30 +30,31 @@ import java.io.Console;
 @Log4j2
 public class Installation {
 
-    private Console console;
+	private Console console;
 
-    public Installation(){
-        console = System.console();
-    }
+	public Installation() {
+		console = System.console();
+	}
 
-    public void run(Configuration configuration){
-        Config config = new Config();
+	public void run(Configuration configuration) {
+		Config config = new Config();
 
-        Container<String, Integer> internalPort;
-        DatabaseConfig databaseConfig;
+		Container<String, Integer> internalPort;
+		DatabaseConfig databaseConfig;
 
-        log.info("Welcome to installation");
+		log.info("Welcome to installation");
 
-        do {
-            log.info("Please enter the internal Port. The port must be between 1024 and 49151 (27755)");
-            internalPort = new Container<>(console.readLine());
-        } while (!ConvertUtils.tryParse(internalPort) || internalPort.getResult() < 1024 || internalPort.getResult() > 49151);
+		do {
+			log.info("Please enter the internal Port. The port must be between 1024 and 49151 (27755)");
+			internalPort = new Container<>(console.readLine());
+		}
+		while (!ConvertUtils.tryParse(internalPort) || internalPort.getResult() < 1024 || internalPort.getResult() > 49151);
 
-        databaseConfig = new DatabaseInstallation().run();
+		databaseConfig = new DatabaseInstallation().run();
 
-        config.setInternalPort(internalPort.getResult());
-        config.setDatabaseConfig(databaseConfig);
+		config.setInternalPort(internalPort.getResult());
+		config.setDatabaseConfig(databaseConfig);
 
-        configuration.writeConfiguration(config);
-    }
+		configuration.writeConfiguration(config);
+	}
 }

@@ -26,21 +26,21 @@ import java.sql.SQLException;
 
 @Log4j2
 public class MySQLConnectionTest {
-    public static boolean connectionTest(MySQLConfig mySQLConfig){
-        try {
-            DriverManager.getConnection("jdbc:mysql://" +
-                            mySQLConfig.getIp() +
-                            ":" +
-                            mySQLConfig.getPort() +
-                            "/" +
-                            mySQLConfig.getDb(),
-                    mySQLConfig.getUser(),
-                    mySQLConfig.getPw()
-            ).close();
-            return true;
-        } catch (SQLException e) {
-            log.warn("Wrong database connection data");
-            return false;
-        }
-    }
+	public static boolean connectionTest(MySQLConfig mySQLConfig) {
+		try {
+			DriverManager.getConnection("jdbc:mysql://" +
+							mySQLConfig.getIp() +
+							":" +
+							mySQLConfig.getPort() +
+							"/" +
+							mySQLConfig.getDb(),
+					mySQLConfig.getUser(),
+					mySQLConfig.getPw()
+			).close();
+			return true;
+		} catch (SQLException e) {
+			log.warn("Wrong database connection data");
+			return false;
+		}
+	}
 }

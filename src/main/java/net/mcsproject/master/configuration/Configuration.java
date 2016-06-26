@@ -36,42 +36,42 @@ import java.io.IOException;
 @Log4j2
 public class Configuration {
 
-    private File configFile;
-    @Getter(AccessLevel.PUBLIC)
-    private Config config;
+	private File configFile;
+	@Getter(AccessLevel.PUBLIC)
+	private Config config;
 
-    private Gson gson;
+	private Gson gson;
 
-    public Configuration() {
-        this.configFile = Arguments.getInstance().getConfigFile();
-        gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(DatabaseConfig.class, new DataBaseConfigSerialize())
-                .registerTypeAdapter(DatabaseConfig.class, new DataBaseConfigDeserialize())
-                .create();
-    }
+	public Configuration() {
+		this.configFile = Arguments.getInstance().getConfigFile();
+		gson = new GsonBuilder()
+				.setPrettyPrinting()
+				.registerTypeAdapter(DatabaseConfig.class, new DataBaseConfigSerialize())
+				.registerTypeAdapter(DatabaseConfig.class, new DataBaseConfigDeserialize())
+				.create();
+	}
 
-    public boolean exists(){
-        return configFile.exists();
-    }
+	public boolean exists() {
+		return configFile.exists();
+	}
 
-    public void writeConfiguration() {
-        writeConfiguration(config);
-    }
+	public void writeConfiguration() {
+		writeConfiguration(config);
+	}
 
-    public void writeConfiguration(Config config) {
-        try (FileWriter fileWriter = new FileWriter(configFile)) {
-            gson.toJson(config, fileWriter);
-        } catch (IOException e) {
-            log.fatal(e);
-        }
-    }
+	public void writeConfiguration(Config config) {
+		try (FileWriter fileWriter = new FileWriter(configFile)) {
+			gson.toJson(config, fileWriter);
+		} catch (IOException e) {
+			log.fatal(e);
+		}
+	}
 
-    public void readConfiguration() {
-        try (FileReader fileReader = new FileReader(configFile)) {
-            config = gson.fromJson(fileReader, Config.class);
-        } catch (IOException e) {
-            log.fatal(e);
-        }
-    }
+	public void readConfiguration() {
+		try (FileReader fileReader = new FileReader(configFile)) {
+			config = gson.fromJson(fileReader, Config.class);
+		} catch (IOException e) {
+			log.fatal(e);
+		}
+	}
 }

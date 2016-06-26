@@ -19,12 +19,12 @@
 package net.mcsproject.master.utils;
 
 public class ConvertUtils {
-    public static boolean tryParse(Container<String, Integer> container){
-        try {
-            container.setResult(Integer.parseInt(container.getValue()));
-            return true;
-        } catch (NumberFormatException e){
-            return false;
-        }
-    }
+	public static boolean tryParse(Container<String, Integer> container) {
+		try {
+			container.setResult(Integer.parseInt(container.getValue()));
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 }

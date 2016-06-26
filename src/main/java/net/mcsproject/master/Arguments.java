@@ -28,23 +28,23 @@ import java.io.File;
 
 public class Arguments {
 
-    private static Arguments arguments;
+	private static Arguments arguments;
 
-    @Getter(AccessLevel.PUBLIC)
-    private JCommander jCommander;
-    @Getter(AccessLevel.PUBLIC)
-    @Parameter(names = "-debug", description = "Debug mode")
-    private boolean debug = false;
-    @Getter(AccessLevel.PUBLIC)
-    @Parameter(names = "-config", converter = FileConverter.class, description = "Path to config.json")
-    private File configFile = new File("config.json");
+	@Getter(AccessLevel.PUBLIC)
+	private JCommander jCommander;
+	@Getter(AccessLevel.PUBLIC)
+	@Parameter(names = "-debug", description = "Debug mode")
+	private boolean debug = false;
+	@Getter(AccessLevel.PUBLIC)
+	@Parameter(names = "-config", converter = FileConverter.class, description = "Path to config.json")
+	private File configFile = new File("config.json");
 
-    public Arguments(String[] args) {
-        arguments = this;
-        jCommander = new JCommander(this, args);
-    }
+	public Arguments(String[] args) {
+		arguments = this;
+		jCommander = new JCommander(this, args);
+	}
 
-    public static Arguments getInstance() {
-        return arguments;
-    }
+	public static Arguments getInstance() {
+		return arguments;
+	}
 }

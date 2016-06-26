@@ -28,12 +28,13 @@ import java.io.PrintStream;
 
 public class OutErrLoggerTests {
 
-    @Test
-    public void SetOutAndErrToLog_NewPrintWriterSystemOutErr(){
-        OutErrLogger.setOutAndErrToLog();
-        try {
-            Assert.assertTrue(PrintStream.class.getDeclaredField("out").get(System.out).equals(new LoggerStream(Level.INFO)));
-            Assert.assertTrue(PrintStream.class.getDeclaredField("out").get(System.err).equals(new LoggerStream(Level.ERROR)));
-        } catch (NoSuchFieldException | IllegalAccessException ignored) {}
-    }
+	@Test
+	public void SetOutAndErrToLog_NewPrintWriterSystemOutErr() {
+		OutErrLogger.setOutAndErrToLog();
+		try {
+			Assert.assertTrue(PrintStream.class.getDeclaredField("out").get(System.out).equals(new LoggerStream(Level.INFO)));
+			Assert.assertTrue(PrintStream.class.getDeclaredField("out").get(System.err).equals(new LoggerStream(Level.ERROR)));
+		} catch (NoSuchFieldException | IllegalAccessException ignored) {
+		}
+	}
 }

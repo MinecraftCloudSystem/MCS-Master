@@ -35,68 +35,68 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 
 @Log4j2
-public class MySQLExecutor implements Closeable{
-    private ConnectionPool pool;
-    private UpdateQueue updateQueue;
+public class MySQLExecutor implements Closeable {
+	private ConnectionPool pool;
+	private UpdateQueue updateQueue;
 
-    private ScriptRunner scriptRunner;
+	private ScriptRunner scriptRunner;
 
-    MySQLExecutor(MySQLConfig mysqlConfig){
-        pool = new ConnectionPool(mysqlConfig.getMinOpenConnections(), mysqlConfig.getMaxOpenConnections(), mysqlConfig.getValidationInterval()) {
-            @Override
-            protected Connection createConnection() {
-                try {
-                    return DriverManager.getConnection("jdbc:mysql://" + mysqlConfig.getIp() + ":" + mysqlConfig.getPort() + "/" + mysqlConfig.getDb(), mysqlConfig.getUser(), mysqlConfig.getPw());
-                } catch (SQLException e) {
-                    log.fatal(e);
-                    MasterServer.getInstance().stopServer(100);
-                }
-                return null;
-            }
-        };
-        scriptRunner = new ScriptRunner(this);
-        updateQueue = new UpdateQueue(pool);
-    }
+	MySQLExecutor(MySQLConfig mysqlConfig) {
+		pool = new ConnectionPool(mysqlConfig.getMinOpenConnections(), mysqlConfig.getMaxOpenConnections(), mysqlConfig.getValidationInterval()) {
+			@Override
+			protected Connection createConnection() {
+				try {
+					return DriverManager.getConnection("jdbc:mysql://" + mysqlConfig.getIp() + ":" + mysqlConfig.getPort() + "/" + mysqlConfig.getDb(), mysqlConfig.getUser(), mysqlConfig.getPw());
+				} catch (SQLException e) {
+					log.fatal(e);
+					MasterServer.getInstance().stopServer(100);
+				}
+				return null;
+			}
+		};
+		scriptRunner = new ScriptRunner(this);
+		updateQueue = new UpdateQueue(pool);
+	}
 
-    public CachedRowSet syncRequest(PreparedStatement stmt) throws SQLException{
-        Connection con = this.pool.borrowConnection();
-        CachedRowSet cachedRowSet = new CachedRowSetImpl();
-        cachedRowSet.populate(stmt.executeQuery());
-        stmt.close();
-        pool.returnConnection(con);
-        return cachedRowSet;
-    }
+	public CachedRowSet syncRequest(PreparedStatement stmt) throws SQLException {
+		Connection con = this.pool.borrowConnection();
+		CachedRowSet cachedRowSet = new CachedRowSetImpl();
+		cachedRowSet.populate(stmt.executeQuery());
+		stmt.close();
+		pool.returnConnection(con);
+		return cachedRowSet;
+	}
 
-    public Thread asyncRequest(PreparedStatement stmt, Consumer<CachedRowSet> consumer) {
-        Thread thread = new Thread(() -> {
-            try {
-                CachedRowSet cachedRowSet = syncRequest(stmt);
-                consumer.accept(cachedRowSet);
-            } catch (SQLException e) {
-                log.warn(e);
-            }
-        });
-        thread.setName("DatabaseRequest Thread");
-        thread.run();
-        return thread;
-    }
+	public Thread asyncRequest(PreparedStatement stmt, Consumer<CachedRowSet> consumer) {
+		Thread thread = new Thread(() -> {
+			try {
+				CachedRowSet cachedRowSet = syncRequest(stmt);
+				consumer.accept(cachedRowSet);
+			} catch (SQLException e) {
+				log.warn(e);
+			}
+		});
+		thread.setName("DatabaseRequest Thread");
+		thread.run();
+		return thread;
+	}
 
-    public PreparedStatement createPreparedStatement(String qry) throws SQLException{
-        Connection connection = pool.borrowConnection();
-        return connection.prepareStatement(qry);
-    }
+	public PreparedStatement createPreparedStatement(String qry) throws SQLException {
+		Connection connection = pool.borrowConnection();
+		return connection.prepareStatement(qry);
+	}
 
-    public void asyncStatement(PreparedStatement stmt) throws SQLException{
-        updateQueue.addUpdate(stmt);
-    }
+	public void asyncStatement(PreparedStatement stmt) throws SQLException {
+		updateQueue.addUpdate(stmt);
+	}
 
-    public void runScript(InputStream inputStream) throws IOException, SQLException {
-        scriptRunner.runScript(inputStream);
-    }
+	public void runScript(InputStream inputStream) throws IOException, SQLException {
+		scriptRunner.runScript(inputStream);
+	}
 
-    @Override
-    public void close() {
-        updateQueue.close();
-        pool.close();
-    }
+	@Override
+	public void close() {
+		updateQueue.close();
+		pool.close();
+	}
 }

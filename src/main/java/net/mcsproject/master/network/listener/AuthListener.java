@@ -16,31 +16,23 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.utils;
+package net.mcsproject.master.network.listener;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoException;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.log4j.Log4j2;
-import net.mcsproject.master.configuration.database.MongoDBConfig;
+import net.mcsproject.master.network.packet.PacketHandler;
+import net.mcsproject.master.network.packet.PacketListener;
+import net.mcsproject.master.network.packets.PacketAuth;
+import net.mcsproject.master.network.packets.PacketAuthResponse;
 
 @Log4j2
-public class MongoDBConnectionTest {
-	public static boolean connectionTest(MongoDBConfig mongoDBConfig) {
-		Logging.disableMongoDBLogging();
-		boolean success = true;
-		MongoClient mongoClient = null;
-		try {
-			mongoClient = new MongoClient(new MongoClientURI("mongodb://" + mongoDBConfig.getIp() + ":" + mongoDBConfig.getPort()));
-			mongoClient.getDatabaseNames();
-		} catch (MongoException e) {
-			success = false;
-		} finally {
-			if (mongoClient != null) {
-				mongoClient.close();
-			}
-			Logging.enableMongoDBLogging();
-		}
-		return success;
+public class AuthListener extends PacketListener {
+
+	@PacketHandler
+	public void onAuth(ChannelHandlerContext ctx, PacketAuth packetAuth) {
+		log.info("Auth packet received! Key: " + packetAuth.getApiKey());
+
+		ctx.writeAndFlush(new PacketAuthResponse(true, 25567, 25580, "[]"));
 	}
+
 }

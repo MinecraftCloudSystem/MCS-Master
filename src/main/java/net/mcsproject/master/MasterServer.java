@@ -29,8 +29,6 @@ import net.mcsproject.master.network.DaemonServer;
 import net.mcsproject.master.utils.Logging;
 import net.mcsproject.master.web.ApiServer;
 
-import java.util.Scanner;
-
 @Log4j2
 public final class MasterServer {
 
@@ -41,7 +39,7 @@ public final class MasterServer {
 	private MasterServer(String[] args) {
 		instance = this;
 		if (System.console() == null) {
-			log.error("Not supported Console, Use -console parameter");
+			log.error("Not supported console, use -console parameter");
 			return;
 		}
 		OutErrLogger.setOutAndErrToLog();
@@ -61,7 +59,7 @@ public final class MasterServer {
 
 		configuration.readConfiguration();
 
-		log.info("Loading Configuration successfully");
+		log.info("Loaded configuration successfully");
 
 		Config config = configuration.getConfig();
 
@@ -70,8 +68,7 @@ public final class MasterServer {
 		DaemonServer daemonServer = new DaemonServer(config.getInternalPort());
 		ApiServer apiServer = new ApiServer(1337);
 
-		Scanner scanner = new Scanner(System.in);
-		scanner.next();
+		System.console().readLine();
 	}
 
 	public static void main(String[] args) {
@@ -80,7 +77,7 @@ public final class MasterServer {
 
 	private void enableDebug() {
 		Logging.enableDebug();
-		log.info("Debugging mode is Enabled");
+		log.info("Debugging mode is enabled");
 	}
 
 	public void stopServer(int status) {

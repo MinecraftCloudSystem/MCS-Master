@@ -22,37 +22,37 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MySQLConfig extends DatabaseConfig{
+public class MySQLConfig extends DatabaseConfig {
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String ip;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private String ip;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String port;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private String port;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String db;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private String db;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String user;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private String user;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private String pw;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private String pw;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private int minOpenConnections;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private int minOpenConnections;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private int maxOpenConnections;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private int maxOpenConnections;
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private int validationInterval;
+	@Setter(AccessLevel.PUBLIC)
+	@Getter(AccessLevel.PUBLIC)
+	private int validationInterval;
 }

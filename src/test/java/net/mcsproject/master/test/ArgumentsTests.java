@@ -26,25 +26,25 @@ import java.io.File;
 
 public class ArgumentsTests {
 
-    @Test
-    public void Arguments_FieldsInitializeCorrectWithArguments() {
-        String[] args = {
-                "-debug",
-                "-config",
-                "settings.json"
-        };
-        Arguments arguments = new Arguments(args);
-        Assert.assertEquals(arguments.isDebug(), true);
-        Assert.assertEquals(arguments.getConfigFile(), new File("settings.json"));
-    }
+	@Test
+	public void Arguments_FieldsInitializeCorrectWithArguments() {
+		String[] args = {
+				"-debug",
+				"-config",
+				"settings.json"
+		};
+		Arguments arguments = new Arguments(args);
+		Assert.assertEquals(arguments.isDebug(), true);
+		Assert.assertEquals(arguments.getConfigFile(), new File("settings.json"));
+	}
 
-    @Test
-    public void Arguments_FieldsInitializeCorrectWithoutArguments() {
-        String[] args = {};
-        Arguments arguments = new Arguments(args);
-        Assert.assertEquals(arguments.isDebug(), false);
-        Assert.assertEquals(arguments.getConfigFile(), new File("config.json"));
-    }
+	@Test
+	public void Arguments_FieldsInitializeCorrectWithoutArguments() {
+		String[] args = {};
+		Arguments arguments = new Arguments(args);
+		Assert.assertEquals(arguments.isDebug(), false);
+		Assert.assertEquals(arguments.getConfigFile(), new File("config.json"));
+	}
 
 
 }

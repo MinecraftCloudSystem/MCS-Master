@@ -26,19 +26,19 @@ import net.mcsproject.master.database.mysql.MySQL;
 
 public class DatabaseFactory {
 
-    private DatabaseConfig databaseConfig;
+	private DatabaseConfig databaseConfig;
 
-    public DatabaseFactory(Config config){
-        databaseConfig = config.getDatabaseConfig();
-    }
+	public DatabaseFactory(Config config) {
+		databaseConfig = config.getDatabaseConfig();
+	}
 
-    public Database create(){
-        if(databaseConfig instanceof MongoDBConfig){
-            return new MongoDB((MongoDBConfig) databaseConfig);
-        } else if(databaseConfig instanceof MySQLConfig){
-            return new MySQL((MySQLConfig) databaseConfig);
-        } else {
-            throw new IllegalArgumentException("Not supported dbms");
-        }
-    }
+	public Database create() {
+		if (databaseConfig instanceof MongoDBConfig) {
+			return new MongoDB((MongoDBConfig) databaseConfig);
+		} else if (databaseConfig instanceof MySQLConfig) {
+			return new MySQL((MySQLConfig) databaseConfig);
+		} else {
+			throw new IllegalArgumentException("Not supported dbms");
+		}
+	}
 }

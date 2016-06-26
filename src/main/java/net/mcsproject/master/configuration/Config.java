@@ -18,19 +18,13 @@
 
 package net.mcsproject.master.configuration;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import net.mcsproject.master.configuration.database.DatabaseConfig;
 
-@EqualsAndHashCode
+@Data
 public class Config {
-    @Getter(AccessLevel.PUBLIC)
-    @Setter(AccessLevel.PUBLIC)
-    private DatabaseConfig databaseConfig;
 
-    @Getter(AccessLevel.PUBLIC)
-    @Setter(AccessLevel.PUBLIC)
-    private int internalPort;
+	private DatabaseConfig databaseConfig;
+
+	private int internalPort;
 }

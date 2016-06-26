@@ -20,15 +20,15 @@ package net.mcsproject.master.database.mysql;
 
 public enum RelationVersions {
 
-    VERSION(new String[] {"1.0.0"});
+	VERSION(new String[]{"1.0.0"});
 
-    private String[] versions;
+	private String[] versions;
 
-    RelationVersions(String[] versions) {
-        this.versions = versions;
-    }
+	RelationVersions(String[] versions) {
+		this.versions = versions;
+	}
 
-    public String getLatestVersion(){
-        return versions[versions.length - 1];
-    }
+	public String getLatestVersion() {
+		return versions[versions.length - 1];
+	}
 }

@@ -30,28 +30,28 @@ import java.util.ArrayList;
 
 @Log4j2
 public class MySQL implements Database {
-    private MySQLExecutor executor;
+	private MySQLExecutor executor;
 
-    private VersionRelation versionRelation;
+	private VersionRelation versionRelation;
 
-    public MySQL(MySQLConfig mysqlConfig) {
-        MySQLExecutor executor = new MySQLExecutor(mysqlConfig);
-        ArrayList<String> existTables = new ArrayList<>();
-        try {
-            CachedRowSet cachedRowSet = executor.syncRequest(executor.createPreparedStatement("SHOW TABLES;"));
+	public MySQL(MySQLConfig mysqlConfig) {
+		MySQLExecutor executor = new MySQLExecutor(mysqlConfig);
+		ArrayList<String> existTables = new ArrayList<>();
+		try {
+			CachedRowSet cachedRowSet = executor.syncRequest(executor.createPreparedStatement("SHOW TABLES;"));
 
-            while (cachedRowSet.next()){
-                existTables.add(cachedRowSet.getString(1));
-            }
-        } catch (SQLException e) {
-            log.fatal(e);
-            MasterServer.getInstance().stopServer(102);
-        }
+			while (cachedRowSet.next()) {
+				existTables.add(cachedRowSet.getString(1));
+			}
+		} catch (SQLException e) {
+			log.fatal(e);
+			MasterServer.getInstance().stopServer(102);
+		}
 
-        versionRelation = new VersionRelation(executor, existTables.contains(VersionRelation.NAME));
-    }
+		versionRelation = new VersionRelation(executor, existTables.contains(VersionRelation.NAME));
+	}
 
-    public void close() {
-        executor.close();
-    }
+	public void close() {
+		executor.close();
+	}
 }

@@ -26,10 +26,10 @@ import net.mcsproject.master.configuration.database.DatabaseConfig;
 import java.lang.reflect.Type;
 
 public class DataBaseConfigSerialize implements JsonSerializer<DatabaseConfig> {
-    @Override
-    public JsonElement serialize(DatabaseConfig databaseConfig, Type type, JsonSerializationContext jsonSerializationContext) {
-        JsonElement jsonEle = jsonSerializationContext.serialize(databaseConfig, databaseConfig.getClass());
-        jsonEle.getAsJsonObject().addProperty("DBMS", DatabaseConfig.getStringForDatabaseConfig(databaseConfig));
-        return jsonEle;
-    }
+	@Override
+	public JsonElement serialize(DatabaseConfig databaseConfig, Type type, JsonSerializationContext jsonSerializationContext) {
+		JsonElement jsonEle = jsonSerializationContext.serialize(databaseConfig, databaseConfig.getClass());
+		jsonEle.getAsJsonObject().addProperty("DBMS", DatabaseConfig.getStringForDatabaseConfig(databaseConfig));
+		return jsonEle;
+	}
 }

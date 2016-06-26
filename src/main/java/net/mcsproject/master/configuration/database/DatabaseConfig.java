@@ -22,24 +22,24 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public abstract class DatabaseConfig {
-    public static Class<? extends DatabaseConfig> getClassForString(final String dbms){
-        switch (dbms){
-            case "MySQL":
-                return MySQLConfig.class;
-            case "MongoDB":
-                return MongoDBConfig.class;
-            default:
-                throw new IllegalArgumentException("Wrong DBMS");
-        }
-    }
+	public static Class<? extends DatabaseConfig> getClassForString(final String dbms) {
+		switch (dbms) {
+			case "MySQL":
+				return MySQLConfig.class;
+			case "MongoDB":
+				return MongoDBConfig.class;
+			default:
+				throw new IllegalArgumentException("Wrong DBMS");
+		}
+	}
 
-    public static String getStringForDatabaseConfig(final DatabaseConfig databaseConfig){
-        if(databaseConfig instanceof MongoDBConfig){
-            return "MongoDB";
-        } else if (databaseConfig instanceof MySQLConfig){
-            return "MySQL";
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
+	public static String getStringForDatabaseConfig(final DatabaseConfig databaseConfig) {
+		if (databaseConfig instanceof MongoDBConfig) {
+			return "MongoDB";
+		} else if (databaseConfig instanceof MySQLConfig) {
+			return "MySQL";
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
 }
