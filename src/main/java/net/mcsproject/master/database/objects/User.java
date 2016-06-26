@@ -16,17 +16,20 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.database;
+package net.mcsproject.master.database.objects;
 
-import net.mcsproject.master.configuration.database.MongoDBConfig;
+import lombok.AccessLevel;
+import lombok.Getter;
 
-class MongoDB implements Database {
-    MongoDB(MongoDBConfig mongoDBConfig) {
-        super();
-    }
+public class User {
+    @Getter(AccessLevel.PUBLIC)
+    private String username;
 
-    @Override
-    public void close() {
+    @Getter(AccessLevel.PUBLIC)
+    private byte[] passwordHash;
 
+    public User(String username, byte[] passwordHash){
+        this.username = username;
+        this.passwordHash = passwordHash;
     }
 }

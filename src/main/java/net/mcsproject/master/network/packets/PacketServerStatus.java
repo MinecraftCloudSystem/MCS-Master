@@ -15,16 +15,19 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package net.mcsproject.master.network.packets;
 
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.mcsproject.master.network.packet.Packet;
 
 import java.io.IOException;
 
 @AllArgsConstructor
+@Getter
 public class PacketServerStatus extends Packet {
 
 	private int cpuUsage;

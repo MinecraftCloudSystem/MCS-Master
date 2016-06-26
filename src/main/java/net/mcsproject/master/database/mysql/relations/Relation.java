@@ -18,33 +18,40 @@
 
 package net.mcsproject.master.database.mysql.relations;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import net.mcsproject.master.MasterServer;
 import net.mcsproject.master.database.mysql.MySQLExecutor;
+import net.mcsproject.master.database.mysql.RelationVersions;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Log4j2
 abstract class Relation {
 
-    @Getter(AccessLevel.PUBLIC)
-    protected String resources;
+    String resources;
+    String name;
+    MySQLExecutor executor;
+    RelationVersions relationVersions;
 
-    private MySQLExecutor executor;
-
-    Relation(MySQLExecutor executor, String resources, boolean exist){
-        this.executor = executor;
-        this.resources = resources;
-        if(!exist){
-            createTable();
-        }
+    Relation(String name, MySQLExecutor executor){
+        this(name,executor,null);
     }
 
-    private void createTable(){
+    Relation(String name, MySQLExecutor executor, RelationVersions relationVersions){
+        this.name = name;
+        this.executor = executor;
+        this.resources = "mysql/" + name;
+        this.relationVersions = relationVersions;
+    }
+
+    private InputStream getResourceInputStream(String name){
+        return ClassLoader.getSystemResourceAsStream(resources + "/" + name);
+    }
+
+    public void createTable(){
         try {
             executor.runScript(getResourceInputStream("create.sql"));
         } catch (IOException | SQLException e) {
@@ -53,7 +60,37 @@ abstract class Relation {
         }
     }
 
-    private InputStream getResourceInputStream(String name){
-        return ClassLoader.getSystemResourceAsStream(resources + "/" + name);
+    public void checkUpdates(){
+        if(relationVersions == null){
+            log.warn("Relation " + name + " can not update");
+            return;
+        }
+        try {
+            PreparedStatement stmt = executor.createPreparedStatement("SELECT version FROM version WHERE relation = ?;");
+            stmt.setString(1, name);
+            executor.asyncRequest(stmt, cachedRowSet -> {
+                try {
+                    cachedRowSet.next();
+                    String version = cachedRowSet.getString("version");
+                    if(!relationVersions.getLatestVersion().equalsIgnoreCase(version)){
+                        String[] newVersions = relationVersions.getAllUpdates(version);
+                        for (String versions : newVersions){
+                            try {
+                                executor.runScript(getResourceInputStream(versions + ".sql"));
+                            } catch (IOException e) {
+                                log.fatal(e);
+                                MasterServer.getInstance().stopServer(105);
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    log.fatal(e);
+                    MasterServer.getInstance().stopServer(104);
+                }
+            });
+        } catch (SQLException e) {
+            log.fatal(e);
+            MasterServer.getInstance().stopServer(103);
+        }
     }
 }

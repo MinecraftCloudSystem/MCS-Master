@@ -26,38 +26,38 @@ import org.junit.Test;
 
 public class DatabaseConfigTests {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getClassForString_throwIllegalArgumentException(){
-        DatabaseConfig.getClassForString(".");
-    }
+	@Test(expected = IllegalArgumentException.class)
+	public void getClassForString_throwIllegalArgumentException() {
+		DatabaseConfig.getClassForString(".");
+	}
 
-    @Test()
-    public void getClassForString_getMongoDBConfigClass(){
-        Assert.assertEquals(DatabaseConfig.getClassForString("MongoDB"), MongoDBConfig.class);
-    }
+	@Test()
+	public void getClassForString_getMongoDBConfigClass() {
+		Assert.assertEquals(DatabaseConfig.getClassForString("MongoDB"), MongoDBConfig.class);
+	}
 
-    @Test()
-    public void getClassForString_getMySQLConfigClass(){
-        Assert.assertEquals(DatabaseConfig.getClassForString("MySQL"), MySQLConfig.class);
-    }
+	@Test()
+	public void getClassForString_getMySQLConfigClass() {
+		Assert.assertEquals(DatabaseConfig.getClassForString("MySQL"), MySQLConfig.class);
+	}
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getStringForDatabaseConfig_throwIllegalArgumentException(){
-        DatabaseConfig.getStringForDatabaseConfig(new DatabaseConfig() {
-            @Override
-            public int hashCode() {
-                return super.hashCode();
-            }
-        });
-    }
+	@Test(expected = IllegalArgumentException.class)
+	public void getStringForDatabaseConfig_throwIllegalArgumentException() {
+		DatabaseConfig.getStringForDatabaseConfig(new DatabaseConfig() {
+			@Override
+			public int hashCode() {
+				return super.hashCode();
+			}
+		});
+	}
 
-    @Test()
-    public void getStringForDatabaseConfig_getMongoDB(){
-        Assert.assertEquals(DatabaseConfig.getStringForDatabaseConfig(new MongoDBConfig()), "MongoDB");
-    }
+	@Test()
+	public void getStringForDatabaseConfig_getMongoDB() {
+		Assert.assertEquals(DatabaseConfig.getStringForDatabaseConfig(new MongoDBConfig()), "MongoDB");
+	}
 
-    @Test()
-    public void getStringForDatabaseConfig_getMySQL(){
-        Assert.assertEquals(DatabaseConfig.getStringForDatabaseConfig(new MySQLConfig()), "MySQL");
-    }
+	@Test()
+	public void getStringForDatabaseConfig_getMySQL() {
+		Assert.assertEquals(DatabaseConfig.getStringForDatabaseConfig(new MySQLConfig()), "MySQL");
+	}
 }

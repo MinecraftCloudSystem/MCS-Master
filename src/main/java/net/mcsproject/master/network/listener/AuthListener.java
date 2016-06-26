@@ -16,33 +16,23 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.database.mysql;
+package net.mcsproject.master.network.listener;
 
-public enum RelationVersions {
+import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.log4j.Log4j2;
+import net.mcsproject.master.network.packet.PacketHandler;
+import net.mcsproject.master.network.packet.PacketListener;
+import net.mcsproject.master.network.packets.PacketAuth;
+import net.mcsproject.master.network.packets.PacketAuthResponse;
 
-    USER(new String[] {"1.0.0"});
+@Log4j2
+public class AuthListener extends PacketListener {
 
-	private String[] versions;
+	@PacketHandler
+	public void onAuth(ChannelHandlerContext ctx, PacketAuth packetAuth) {
+		log.info("Auth packet received! Key: " + packetAuth.getApiKey());
 
-	RelationVersions(String[] versions) {
-		this.versions = versions;
+		ctx.writeAndFlush(new PacketAuthResponse(true, 25567, 25580, "[]"));
 	}
 
-    public String[] getAllUpdates(String version){
-        int index = 0;
-        for (int i = versions.length - 1; i >= 0; i-- ){
-            if(version.equalsIgnoreCase(versions[i])){
-                index = i + 1;
-                break;
-            }
-        }
-        int length = versions.length - index;
-        String[] dest = new String[length];
-        System.arraycopy(versions, index, dest, 0, length);
-        return dest;
-    }
-
-    public String getLatestVersion(){
-        return versions[versions.length - 1];
-    }
 }

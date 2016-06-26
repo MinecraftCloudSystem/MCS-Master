@@ -25,13 +25,13 @@ import net.mcsproject.master.database.utils.ConnectionPool;
 @Log4j2
 public class VersionRelation extends Relation {
 
-    public static String NAME = "version";
+	public static String NAME = "version";
 
-    private ConnectionPool pool;
+	private ConnectionPool pool;
 
-    private String version;
+	private String version;
 
-    public VersionRelation(MySQLExecutor executor, boolean exist){
-        super(executor, "mysql/version", exist);
+    public VersionRelation(MySQLExecutor executor){
+        super(NAME, executor);
     }
 }

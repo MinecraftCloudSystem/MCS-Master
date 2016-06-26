@@ -25,19 +25,16 @@ import java.io.PrintStream;
 
 @Log4j2
 public class OutErrLogger {
-    public static void setOutAndErrToLog()
-    {
-        setOutToLog();
-        setErrToLog();
-    }
+	public static void setOutAndErrToLog() {
+		setOutToLog();
+		setErrToLog();
+	}
 
-    private static void setOutToLog()
-    {
-        System.setOut(new PrintStream(new LoggerStream(Level.INFO)));
-    }
+	private static void setOutToLog() {
+		System.setOut(new PrintStream(new LoggerStream(Level.INFO)));
+	}
 
-    private static void setErrToLog()
-    {
-        System.setErr(new PrintStream(new LoggerStream(Level.ERROR)));
-    }
+	private static void setErrToLog() {
+		System.setErr(new PrintStream(new LoggerStream(Level.ERROR)));
+	}
 }

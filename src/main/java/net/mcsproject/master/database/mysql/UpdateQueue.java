@@ -43,55 +43,55 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 @Log4j2
-class UpdateQueue implements Closeable, Runnable{
+class UpdateQueue implements Closeable, Runnable {
 
-    private final BlockingQueue<PreparedStatement> updates;
-    private ConnectionPool pool;
-    private Thread thread;
+	private final BlockingQueue<PreparedStatement> updates;
+	private ConnectionPool pool;
+	private Thread thread;
 
-    private boolean started;
+	private boolean started;
 
-    UpdateQueue(ConnectionPool pool) {
-        this.updates = new ArrayBlockingQueue<>(12);
-        this.pool = pool;
-        thread = new Thread(this);
-        thread.setName("MySQLUpdateQueue Thread");
-        thread.start();
-        started = true;
-    }
+	UpdateQueue(ConnectionPool pool) {
+		this.updates = new ArrayBlockingQueue<>(12);
+		this.pool = pool;
+		thread = new Thread(this);
+		thread.setName("MySQLUpdateQueue Thread");
+		thread.start();
+		started = true;
+	}
 
-    void addUpdate(PreparedStatement stmt) {
-        this.updates.add(stmt);
-    }
+	void addUpdate(PreparedStatement stmt) {
+		this.updates.add(stmt);
+	}
 
-    public void run() {
-        while (this.started) {
-            try {
-                PreparedStatement stmt;
-                try {
-                    stmt = this.getQueueObject();
-                } catch (InterruptedException e) {
-                    continue;
-                }
-                stmt.executeUpdate();
-                Connection con = stmt.getConnection();
-                stmt.close();
-                pool.returnConnection(con);
-            } catch (SQLException e) {
-                log.warn(e);
-            }
-        }
-    }
+	public void run() {
+		while (this.started) {
+			try {
+				PreparedStatement stmt;
+				try {
+					stmt = this.getQueueObject();
+				} catch (InterruptedException e) {
+					continue;
+				}
+				stmt.executeUpdate();
+				Connection con = stmt.getConnection();
+				stmt.close();
+				pool.returnConnection(con);
+			} catch (SQLException e) {
+				log.warn(e);
+			}
+		}
+	}
 
-    private PreparedStatement getQueueObject() throws InterruptedException {
-        return this.updates.take();
-    }
+	private PreparedStatement getQueueObject() throws InterruptedException {
+		return this.updates.take();
+	}
 
-    @Override
-    public void close(){
-        if(thread != null){
-            this.thread.interrupt();
-        }
-        this.started = false;
-    }
+	@Override
+	public void close() {
+		if (thread != null) {
+			this.thread.interrupt();
+		}
+		this.started = false;
+	}
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
   ~     MCS - Minecraft Cloud System
   ~     Copyright (C) 2016
@@ -21,7 +22,8 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg%n"/>
         </Console>
-        <RollingRandomAccessFile name="LogFile" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
+        <RollingRandomAccessFile name="LogFile" fileName="logs/latest.log"
+                                 filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="[%d{HH:mm:ss} %t/%level]: %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>

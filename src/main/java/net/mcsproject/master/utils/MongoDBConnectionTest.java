@@ -26,21 +26,21 @@ import net.mcsproject.master.configuration.database.MongoDBConfig;
 
 @Log4j2
 public class MongoDBConnectionTest {
-    public static boolean connectionTest(MongoDBConfig mongoDBConfig){
-        Logging.disableMongoDBLogging();
-        boolean success = true;
-        MongoClient mongoClient = null;
-        try{
-            mongoClient = new MongoClient(new MongoClientURI("mongodb://" + mongoDBConfig.getIp() + ":" + mongoDBConfig.getPort()));
-            mongoClient.getDatabaseNames();
-        } catch (MongoException e){
-            success = false;
-        } finally {
-            if(mongoClient != null){
-                mongoClient.close();
-            }
-            Logging.enableMongoDBLogging();
-        }
-        return success;
-    }
+	public static boolean connectionTest(MongoDBConfig mongoDBConfig) {
+		Logging.disableMongoDBLogging();
+		boolean success = true;
+		MongoClient mongoClient = null;
+		try {
+			mongoClient = new MongoClient(new MongoClientURI("mongodb://" + mongoDBConfig.getIp() + ":" + mongoDBConfig.getPort()));
+			mongoClient.getDatabaseNames();
+		} catch (MongoException e) {
+			success = false;
+		} finally {
+			if (mongoClient != null) {
+				mongoClient.close();
+			}
+			Logging.enableMongoDBLogging();
+		}
+		return success;
+	}
 }

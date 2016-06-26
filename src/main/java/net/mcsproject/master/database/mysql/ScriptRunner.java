@@ -29,39 +29,39 @@ import java.sql.SQLException;
 @Log4j2
 class ScriptRunner {
 
-    private MySQLExecutor mysqlExecutor;
+	private MySQLExecutor mysqlExecutor;
 
-    ScriptRunner(MySQLExecutor mysqlExecutor) {
-        this.mysqlExecutor = mysqlExecutor;
-    }
+	ScriptRunner(MySQLExecutor mysqlExecutor) {
+		this.mysqlExecutor = mysqlExecutor;
+	}
 
-    void runScript(InputStream inputStream) throws IOException, SQLException {
-        runScript(new LineNumberReader(new InputStreamReader(inputStream)));
-    }
+	void runScript(InputStream inputStream) throws IOException, SQLException {
+		runScript(new LineNumberReader(new InputStreamReader(inputStream)));
+	}
 
-    private void runScript(LineNumberReader lineReader) throws IOException, SQLException {
-        StringBuilder command = null;
-        String line;
-        while ((line = lineReader.readLine()) != null){
-            if(command == null){
-                command = new StringBuilder();
-            }
-            String trimmed = line.trim();
+	private void runScript(LineNumberReader lineReader) throws IOException, SQLException {
+		StringBuilder command = null;
+		String line;
+		while ((line = lineReader.readLine()) != null) {
+			if (command == null) {
+				command = new StringBuilder();
+			}
+			String trimmed = line.trim();
 
-            if(trimmed.startsWith("--") || trimmed.startsWith("#") || trimmed.length() < 1){
-                continue;
-            }
+			if (trimmed.startsWith("--") || trimmed.startsWith("#") || trimmed.length() < 1) {
+				continue;
+			}
 
-            command.append(line);
+			command.append(line);
 
-            if(trimmed.endsWith(";")){
-                execCommand(command);
-                command = null;
-            }
-        }
-    }
+			if (trimmed.endsWith(";")) {
+				execCommand(command);
+				command = null;
+			}
+		}
+	}
 
     private void execCommand(StringBuilder command) throws SQLException {
-        mysqlExecutor.asyncStatement(mysqlExecutor.createPreparedStatement(command.toString()));
+        mysqlExecutor.syncStatement(mysqlExecutor.createPreparedStatement(command.toString()));
     }
 }

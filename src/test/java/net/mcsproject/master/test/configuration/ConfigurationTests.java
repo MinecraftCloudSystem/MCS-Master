@@ -40,34 +40,35 @@ import java.io.File;
 @PowerMockIgnore("javax.management.*")
 public class ConfigurationTests {
 
-    private Configuration configuration;
+	private Configuration configuration;
 
-    private File configFile = new File("target" + File.pathSeparator + "test" + File.pathSeparator + "testconfig.json");
+	private File configFile = new File("target" + File.pathSeparator + "test" + File.pathSeparator + "testconfig.json");
 
-    private Config config;
-    @Before
-    public void setUp(){
-        Arguments mockArguments = PowerMockito.mock(Arguments.class);
-        PowerMockito.when(mockArguments.getConfigFile()).thenReturn(configFile);
+	private Config config;
 
-        PowerMockito.mockStatic(Arguments.class);
-        PowerMockito.when(Arguments.getInstance()).thenReturn(mockArguments);
+	@Before
+	public void setUp() {
+		Arguments mockArguments = PowerMockito.mock(Arguments.class);
+		PowerMockito.when(mockArguments.getConfigFile()).thenReturn(configFile);
 
-        configuration = new Configuration();
-        config = new Config();
-        config.setInternalPort(80);
-    }
+		PowerMockito.mockStatic(Arguments.class);
+		PowerMockito.when(Arguments.getInstance()).thenReturn(mockArguments);
 
-    @Test
-    public void writeAndReadConfiguration_CorrectlyWriteAndRead() {
-        configuration.writeConfiguration(config);
-        configuration.readConfiguration();
-        Assert.assertEquals(config, configuration.getConfig());
-    }
+		configuration = new Configuration();
+		config = new Config();
+		config.setInternalPort(80);
+	}
 
-    @After
-    public void completion(){
-        if(!configFile.delete())
-            log.warn(configFile + " cannot delete");
-    }
+	@Test
+	public void writeAndReadConfiguration_CorrectlyWriteAndRead() {
+		configuration.writeConfiguration(config);
+		configuration.readConfiguration();
+		Assert.assertEquals(config, configuration.getConfig());
+	}
+
+	@After
+	public void completion() {
+		if (!configFile.delete())
+			log.warn(configFile + " cannot delete");
+	}
 }

@@ -16,33 +16,39 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.mcsproject.master.database.mysql;
+package net.mcsproject.master.database.mongodb;
 
-public enum RelationVersions {
+import net.mcsproject.master.configuration.database.MongoDBConfig;
+import net.mcsproject.master.database.Database;
+import net.mcsproject.master.database.objects.User;
 
-    USER(new String[] {"1.0.0"});
-
-	private String[] versions;
-
-	RelationVersions(String[] versions) {
-		this.versions = versions;
-	}
-
-    public String[] getAllUpdates(String version){
-        int index = 0;
-        for (int i = versions.length - 1; i >= 0; i-- ){
-            if(version.equalsIgnoreCase(versions[i])){
-                index = i + 1;
-                break;
-            }
-        }
-        int length = versions.length - index;
-        String[] dest = new String[length];
-        System.arraycopy(versions, index, dest, 0, length);
-        return dest;
+public class MongoDB implements Database {
+    public MongoDB(MongoDBConfig mongoDBConfig) {
+        super();
     }
 
-    public String getLatestVersion(){
-        return versions[versions.length - 1];
+    @Override
+    public void createUser(User user) throws Exception {
+
+    }
+
+    @Override
+    public boolean checkUser(User user) throws Exception {
+        return false;
+    }
+
+    @Override
+    public void install() {
+
+    }
+
+    @Override
+    public void load() {
+
+    }
+
+    @Override
+    public void close() {
+
     }
 }

@@ -24,35 +24,35 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 
 public class Logging {
-    static void disableMongoDBLogging(){
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        Configuration conf = ctx.getConfiguration();
-        conf.getLoggerConfig("org.mongodb.driver.connection").setLevel(Level.OFF);
-        conf.getLoggerConfig("org.mongodb.driver.management").setLevel(Level.OFF);
-        conf.getLoggerConfig("org.mongodb.driver.cluster").setLevel(Level.OFF);
-        conf.getLoggerConfig("org.mongodb.driver.protocol.insert").setLevel(Level.OFF);
-        conf.getLoggerConfig("org.mongodb.driver.protocol.query").setLevel(Level.OFF);
-        conf.getLoggerConfig("org.mongodb.driver.protocol.update").setLevel(Level.OFF);
-        ctx.updateLoggers(conf);
-    }
+	static void disableMongoDBLogging() {
+		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+		Configuration conf = ctx.getConfiguration();
+		conf.getLoggerConfig("org.mongodb.driver.connection").setLevel(Level.OFF);
+		conf.getLoggerConfig("org.mongodb.driver.management").setLevel(Level.OFF);
+		conf.getLoggerConfig("org.mongodb.driver.cluster").setLevel(Level.OFF);
+		conf.getLoggerConfig("org.mongodb.driver.protocol.insert").setLevel(Level.OFF);
+		conf.getLoggerConfig("org.mongodb.driver.protocol.query").setLevel(Level.OFF);
+		conf.getLoggerConfig("org.mongodb.driver.protocol.update").setLevel(Level.OFF);
+		ctx.updateLoggers(conf);
+	}
 
-    static void enableMongoDBLogging() {
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        Configuration conf = ctx.getConfiguration();
-        conf.getLoggerConfig("org.mongodb.driver.connection").setLevel(Level.INFO);
-        conf.getLoggerConfig("org.mongodb.driver.management").setLevel(Level.INFO);
-        conf.getLoggerConfig("org.mongodb.driver.cluster").setLevel(Level.INFO);
-        conf.getLoggerConfig("org.mongodb.driver.protocol.insert").setLevel(Level.INFO);
-        conf.getLoggerConfig("org.mongodb.driver.protocol.query").setLevel(Level.INFO);
-        conf.getLoggerConfig("org.mongodb.driver.protocol.update").setLevel(Level.INFO);
-        ctx.updateLoggers(conf);
-    }
+	static void enableMongoDBLogging() {
+		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+		Configuration conf = ctx.getConfiguration();
+		conf.getLoggerConfig("org.mongodb.driver.connection").setLevel(Level.INFO);
+		conf.getLoggerConfig("org.mongodb.driver.management").setLevel(Level.INFO);
+		conf.getLoggerConfig("org.mongodb.driver.cluster").setLevel(Level.INFO);
+		conf.getLoggerConfig("org.mongodb.driver.protocol.insert").setLevel(Level.INFO);
+		conf.getLoggerConfig("org.mongodb.driver.protocol.query").setLevel(Level.INFO);
+		conf.getLoggerConfig("org.mongodb.driver.protocol.update").setLevel(Level.INFO);
+		ctx.updateLoggers(conf);
+	}
 
 
-    public static void enableDebug() {
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        org.apache.logging.log4j.core.config.Configuration conf = ctx.getConfiguration();
-        conf.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
-        ctx.updateLoggers(conf);
-    }
+	public static void enableDebug() {
+		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+		org.apache.logging.log4j.core.config.Configuration conf = ctx.getConfiguration();
+		conf.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(Level.DEBUG);
+		ctx.updateLoggers(conf);
+	}
 }

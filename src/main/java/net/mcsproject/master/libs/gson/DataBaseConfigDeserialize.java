@@ -27,9 +27,9 @@ import net.mcsproject.master.configuration.database.DatabaseConfig;
 import java.lang.reflect.Type;
 
 public class DataBaseConfigDeserialize implements JsonDeserializer<DatabaseConfig> {
-    @Override
-    public DatabaseConfig deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
-        JsonObject jsonObj = jsonElement.getAsJsonObject();
-        return jsonDeserializationContext.deserialize(jsonElement, DatabaseConfig.getClassForString(jsonObj.get("DBMS").getAsString()));
-    }
+	@Override
+	public DatabaseConfig deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
+		JsonObject jsonObj = jsonElement.getAsJsonObject();
+		return jsonDeserializationContext.deserialize(jsonElement, DatabaseConfig.getClassForString(jsonObj.get("DBMS").getAsString()));
+	}
 }

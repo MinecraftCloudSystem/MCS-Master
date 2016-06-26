@@ -31,7 +31,7 @@ public class PacketMessageHandler extends SimpleChannelInboundHandler<Packet> {
 
 	@Override
 	protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
-		listenerRegistry.callEvent(packet);
+		listenerRegistry.callEvent(channelHandlerContext, packet);
 	}
 
 	@Override

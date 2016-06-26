@@ -20,6 +20,7 @@ package net.mcsproject.master.network.packet;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.InvocationTargetException;
@@ -36,17 +37,17 @@ public class ListenerRegistry {
 			if (method.getAnnotationsByType(PacketHandler.class).length == 0) {
 				continue;
 			}
-			packetListener.put(method.getParameterTypes()[0], listener, method);
+			packetListener.put(method.getParameterTypes()[1], listener, method);
 		}
 	}
 
-	public void callEvent(Packet packet) {
+	public void callEvent(ChannelHandlerContext ctx, Packet packet) {
 		if (!packetListener.containsRow(packet.getClass())) {
 			return;
 		}
 		packetListener.row(packet.getClass()).forEach((listener, method) -> {
 			try {
-				method.invoke(listener, packet);
+				method.invoke(listener, ctx, packet);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 				log.error(ex.getMessage());
 			}

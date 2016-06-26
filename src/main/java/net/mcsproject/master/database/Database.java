@@ -18,8 +18,14 @@
 
 package net.mcsproject.master.database;
 
+import net.mcsproject.master.database.objects.User;
+
 import java.io.Closeable;
 
 public interface Database extends Closeable {
+    void createUser(User user) throws Exception;
+    boolean checkUser(User user) throws Exception;
+    void install();
+    void load();
     void close();
 }

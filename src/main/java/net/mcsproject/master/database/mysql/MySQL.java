@@ -19,38 +19,51 @@
 package net.mcsproject.master.database.mysql;
 
 import lombok.extern.log4j.Log4j2;
-import net.mcsproject.master.MasterServer;
 import net.mcsproject.master.configuration.database.MySQLConfig;
 import net.mcsproject.master.database.Database;
+import net.mcsproject.master.database.mysql.relations.UserRelation;
 import net.mcsproject.master.database.mysql.relations.VersionRelation;
+import net.mcsproject.master.database.objects.User;
 
-import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 @Log4j2
 public class MySQL implements Database {
-    private MySQLExecutor executor;
+	private MySQLExecutor executor;
 
     private VersionRelation versionRelation;
+    private UserRelation userRelation;
 
     public MySQL(MySQLConfig mysqlConfig) {
-        MySQLExecutor executor = new MySQLExecutor(mysqlConfig);
-        ArrayList<String> existTables = new ArrayList<>();
-        try {
-            CachedRowSet cachedRowSet = executor.syncRequest(executor.createPreparedStatement("SHOW TABLES;"));
-
-            while (cachedRowSet.next()){
-                existTables.add(cachedRowSet.getString(1));
-            }
-        } catch (SQLException e) {
-            log.fatal(e);
-            MasterServer.getInstance().stopServer(102);
-        }
-
-        versionRelation = new VersionRelation(executor, existTables.contains(VersionRelation.NAME));
+        executor = new MySQLExecutor(mysqlConfig);
     }
 
+    @Override
+    public void createUser(User user) throws SQLException {
+        userRelation.addUser(user);
+    }
+
+    @Override
+    public boolean checkUser(User user) throws SQLException {
+        return userRelation.checkUser(user);
+    }
+
+    @Override
+    public void install() {
+        versionRelation = new VersionRelation(executor);
+        versionRelation.createTable();
+        userRelation = new UserRelation(executor);
+        userRelation.createTable();
+    }
+
+    @Override
+    public void load() {
+        versionRelation = new VersionRelation(executor);
+        userRelation = new UserRelation(executor);
+        userRelation.checkUpdates();
+    }
+
+    @Override
     public void close() {
         executor.close();
     }
