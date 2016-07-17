@@ -100,6 +100,14 @@ public class MySQLExecutor implements Closeable {
 		scriptRunner.runScript(inputStream);
 	}
 
+	public Connection borrowConnection() {
+		return pool.borrowConnection();
+	}
+
+	public void returnConnection(Connection con) {
+		pool.returnConnection(con);
+	}
+
 	@Override
 	public void close() {
 		updateQueue.close();

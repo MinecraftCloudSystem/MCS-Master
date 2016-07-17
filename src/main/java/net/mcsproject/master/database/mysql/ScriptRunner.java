@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @Log4j2
@@ -40,25 +41,36 @@ class ScriptRunner {
 	}
 
 	private void runScript(LineNumberReader lineReader) throws IOException, SQLException {
+		Connection con = mysqlExecutor.borrowConnection();
+		con.setAutoCommit(false);
+
 		StringBuilder command = null;
 		String line;
-		while ((line = lineReader.readLine()) != null) {
-			if (command == null) {
-				command = new StringBuilder();
-			}
-			String trimmed = line.trim();
+		try {
+			while ((line = lineReader.readLine()) != null) {
+				if (command == null) {
+					command = new StringBuilder();
+				}
+				String trimmed = line.trim();
 
-			if (trimmed.startsWith("--") || trimmed.startsWith("#") || trimmed.length() < 1) {
-				continue;
-			}
+				if (trimmed.startsWith("--") || trimmed.startsWith("#") || trimmed.length() < 1) {
+					continue;
+				}
 
-			command.append(line);
+				command.append(line);
 
-			if (trimmed.endsWith(";")) {
-				execCommand(command);
-				command = null;
+				if (trimmed.endsWith(";")) {
+					execCommand(command);
+					command = null;
+				}
 			}
+		} catch (SQLException e){
+			con.rollback();
+			throw e;
 		}
+		con.commit();
+		con.setAutoCommit(true);
+		mysqlExecutor.returnConnection(con);
 	}
 
     private void execCommand(StringBuilder command) throws SQLException {
